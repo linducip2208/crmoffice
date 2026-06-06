@@ -1,0 +1,28 @@
+<?php
+
+namespace App\Filament\Admin\Resources\Tasks\Pages;
+
+use App\Filament\Admin\Resources\Tasks\TaskResource;
+use Filament\Actions\DeleteAction;
+use Filament\Actions\ForceDeleteAction;
+use Filament\Actions\RestoreAction;
+use Filament\Resources\Pages\EditRecord;
+
+class EditTask extends EditRecord
+{
+    protected static string $resource = TaskResource::class;
+
+    protected function getHeaderActions(): array
+    {
+        return [
+            DeleteAction::make(),
+            ForceDeleteAction::make(),
+            RestoreAction::make(),
+        ];
+    }
+
+    public function getFooter(): ?\Illuminate\Contracts\View\View
+    {
+        return view('filament.admin.partials.task-timer-footer', ['task' => $this->record]);
+    }
+}

@@ -1,0 +1,23 @@
+User-agent: *
+Allow: /
+Allow: /docs
+Allow: /features
+Allow: /pricing
+Allow: /contact
+Allow: /kb
+Allow: /best-crm-for-*
+Allow: /alternatives-to-*
+Allow: /compare/*
+Allow: /crm-for-*
+
+Disallow: /admin/
+Disallow: /portal/
+Disallow: /api/
+Disallow: /public/proposals/
+Disallow: /public/estimates/
+Disallow: /public/invoices/
+Disallow: /public/contracts/
+Disallow: /webhooks/
+Disallow: /storage/
+
+Sitemap: /sitemap.xml

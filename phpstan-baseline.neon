@@ -1,0 +1,73 @@
+parameters:
+    ignoreErrors:
+        # All access to model/DTO properties (Dynamic Eloquent)
+        - '#Access to an undefined property App\\Models\\[a-zA-Z]+::\$#'
+        - '#Access to an undefined property App\\Http\\Resources\\[a-zA-Z]+Resource::\$#'
+        - '#Access to an undefined property Illuminate\\Contracts\\Auth\\Authenticatable::\$#'
+        - '#Access to an undefined property Illuminate\\Support\\Optional::\$#'
+        - '#Access to an undefined property App\\Filament\\Admin\\Pages\\[a-zA-Z]+::\$#'
+        # Eloquent static magic
+        - '#Call to an undefined static method App\\Models\\[a-zA-Z]+::(find|where|create|role|first|query)\(\)#'
+        - '#Call to an undefined static method App\\Models\\[a-zA-Z]+::[a-zA-Z]+\(\)#'
+        - '#Call to an undefined static method Illuminate\\Support\\Facades\\Storage::createScopedDisk\(\)#'
+        # auth()->user() ->query() etc
+        - '#Call to an undefined method Illuminate\\Contracts\\Auth\\Factory::(user|id)\(\)#'
+        - '#Call to an undefined method Illuminate\\Contracts\\Auth\\Guard::(login|attempt|logout)\(\)#'
+        - '#Call to an undefined method Illuminate\\Contracts\\Auth\\Authenticatable::[a-zA-Z]+\(\)#'
+        # Query builder aliases
+        - '#Call to an undefined method Illuminate\\Database\\Query\\Builder::(with|withCount|whereHas)\(\)#'
+        # DB facade
+        - '#Call to static method raw\(\) on an unknown class DB#'
+        # protected method
+        - '#Call to protected method [a-zA-Z]+\(\) of class Illuminate\\Database\\Eloquent\\Model#'
+        # Redundant nullsafe
+        - '#Using nullsafe property access#'
+        - '#Using nullsafe method call#'
+        # Null coalesce on always-set value
+        - '#always exists and is not nullable#'
+        - '#Expression on left side of \?\? is not nullable#'
+        - '#Left side of && is always true#'
+        # If always true (docblock)
+        - '#If condition is always true#'
+        # return type: View vs Contracts\View\View / RedirectResponse
+        - '#should return Illuminate\\View\\View but returns Illuminate\\Contracts\\View\\View#'
+        - '#should return Illuminate\\View\\View but returns Illuminate\\Http\\RedirectResponse#'
+        - '#should return Illuminate\\Http\\RedirectResponse\|Illuminate\\View\\View but returns Illuminate\\Contracts\\View\\View#'
+        - '#should return Illuminate\\Filesystem\\FilesystemAdapter but returns Illuminate\\Contracts\\Filesystem\\Filesystem#'
+        # argument.type for Eloquent model vs Model|int|string|null
+        - '#expects App\\Models\\[a-zA-Z]+, Illuminate\\Database\\Eloquent\\Model\|int\|string\|null given#'
+        # Filament Forms magic classes
+        - '#has invalid type Filament\\Forms\\[A-Z][a-z]+#'
+        - '#Invoking callable on an unknown class Filament\\Forms\\[A-Z][a-z]+#'
+        # Livewire magic
+        - '#Property App\\Livewire\\[a-zA-Z]+::\$[a-zA-Z]+ \([a-zA-Z\\]+\) does not accept#'
+        # Log facade
+        - '#Call to static method info\(\) on an unknown class Log#'
+        # stdClass instead of model type from DB queries
+        - '#Cannot call method [a-zA-Z]+\(\) on stdClass#'
+        - '#Parameter \#\d+ \$[a-zA-Z]+ of method .* expects App\\Models\\[a-zA-Z]+, stdClass given#'
+        - '#Parameter \#\d+ \$invoice of class App\\Events\\[a-zA-Z]+ constructor expects App\\Models\\[a-zA-Z]+, stdClass given#'
+        # Relationship return type from when() chains
+        - '#should return Illuminate\\Database\\Eloquent\\Relations\\[a-zA-Z]+ but returns#'
+        # Observer property access
+        - '#Access to an undefined property App\\Models\\[a-zA-Z]+Item::\$#'
+        # return.unusedType
+        - '#never returns null so it can be removed from the return type#'
+        # unresolvable type in collections
+        - '#contains unresolvable type#'
+        # argument.type from request()->query()
+        - '#expects array\|string\|null, int given#'
+        # CustomFieldsRenderer
+        - '#expects App\\Models\\CustomField, stdClass given#'
+        # AWS SDK not installed
+        - '#Instantiated class Aws\\S3\\S3Client not found#'
+        - '#Instantiated class League\\Flysystem\\AwsS3V3\\AwsS3V3Adapter not found#'
+        - '#Call to method headBucket\(\) on an unknown class Aws\\S3\\S3Client#'
+        # Filament Table query
+        - '#expects Closure\|Illuminate\\Database\\Eloquent\\Builder\|null, Illuminate\\Database\\Query\\Builder given#'
+        # str_pad float
+        - '#expects string, \(float\|int\) given#'
+        # AWS S3 adapter type (package version mismatch)
+        - '#expects League\\Flysystem\\FilesystemAdapter, League\\Flysystem\\AwsS3V3\\AwsS3V3Adapter given#'
+        # Livewire timer property assignment
+        - '#Property App\\Livewire\\TaskTimer::\$activeEntry \(App\\Models\\TimeEntry\|null\) does not accept stdClass\|null#'
