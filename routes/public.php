@@ -75,7 +75,9 @@ Route::prefix('blog')->name('blog.')->group(function () {
                 $item->addChild('category', htmlspecialchars($post->category->name, ENT_XML1, 'UTF-8'));
             }
             $contentEncoded = $item->addChild('content:encoded', '', 'http://purl.org/rss/1.0/modules/content/');
-            $contentEncoded->addCData($post->content);
+            $dom = dom_import_simplexml($contentEncoded);
+            $cdata = $dom->ownerDocument->createCDATASection($post->content);
+            $dom->appendChild($cdata);
         }
 
         return response($feed->asXML(), 200, ['Content-Type' => 'application/rss+xml; charset=utf-8']);
