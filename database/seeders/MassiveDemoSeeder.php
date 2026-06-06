@@ -81,12 +81,9 @@ class MassiveDemoSeeder extends Seeder
 
     protected $faker;
 
-    private function f(): \Faker\Generator
+    private function faker(): \Faker\Generator
     {
-        if (! isset($this->_faker)) {
-            $this->_faker = \Faker\Factory::create('id_ID');
-        }
-        return $this->_faker;
+        return \fake();
     }
 
     public function run(): void
@@ -171,7 +168,7 @@ class MassiveDemoSeeder extends Seeder
 
     protected function randomIdr(float $min = 1_000_000, float $max = 500_000_000): float
     {
-        return round($this->f()->randomFloat(2, $min / 1_000_000, $max / 1_000_000) * 1_000_000, 2);
+        return round($this->faker()->randomFloat(2, $min / 1_000_000, $max / 1_000_000) * 1_000_000, 2);
     }
 
     protected function idrAmount(float $amount): string
@@ -258,10 +255,10 @@ class MassiveDemoSeeder extends Seeder
                 $items[] = [
                     'name' => $n,
                     'description' => 'Layanan: ' . $n,
-                    'default_price' => $this->f()->randomFloat(2, 250_000, 50_000_000),
-                    'default_tax_rate_id' => $this->f()->randomElement([null, ...$this->taxRateIds]),
+                    'default_price' => $this->faker()->randomFloat(2, 250_000, 50_000_000),
+                    'default_tax_rate_id' => $this->faker()->randomElement([null, ...$this->taxRateIds]),
                     'currency_id' => $this->currencyIds[0],
-                    'unit' => $this->f()->randomElement(['hour', 'unit', 'license', 'month', 'project', 'session']),
+                    'unit' => $this->faker()->randomElement(['hour', 'unit', 'license', 'month', 'project', 'session']),
                     'sku' => 'ITM-' . str_pad($existingItems + $i + 1, 5, '0', STR_PAD_LEFT),
                     'is_active' => true,
                     'created_at' => now(),
@@ -357,22 +354,22 @@ class MassiveDemoSeeder extends Seeder
 
             for ($i = $existing + 1; $i <= $target; $i++) {
                 $prefix = $prefixes[array_rand($prefixes)];
-                $companyName = $prefix . ' ' . $this->f()->word . ' ' . $companySuffixes[array_rand($companySuffixes)];
+                $companyName = $prefix . ' ' . $this->faker()->word . ' ' . $companySuffixes[array_rand($companySuffixes)];
                 $city = $cities[array_rand($cities)];
-                $status = $this->f()->randomElement(['active', 'active', 'active', 'active', 'inactive']);
+                $status = $this->faker()->randomElement(['active', 'active', 'active', 'active', 'inactive']);
 
                 $clients[] = [
                     'company_name' => $companyName,
                     'industry' => $industries[array_rand($industries)],
                     'website' => 'https://' . Str::slug($companyName) . '.co.id',
                     'phone' => '021-' . rand(1000, 9999) . rand(1000, 9999),
-                    'billing_address' => 'Jl. ' . $this->f()->streetName . ' No. ' . rand(1, 200),
+                    'billing_address' => 'Jl. ' . $this->faker()->streetName . ' No. ' . rand(1, 200),
                     'billing_city' => $city,
-                    'billing_state' => $this->f()->randomElement(['DKI Jakarta', 'Jawa Barat', 'Jawa Timur', 'Jawa Tengah', 'Bali', 'Sumatera Utara']),
+                    'billing_state' => $this->faker()->randomElement(['DKI Jakarta', 'Jawa Barat', 'Jawa Timur', 'Jawa Tengah', 'Bali', 'Sumatera Utara']),
                     'billing_country' => 'ID',
-                    'billing_postal' => (string) $this->f()->numberBetween(10000, 99999),
+                    'billing_postal' => (string) $this->faker()->numberBetween(10000, 99999),
                     'tax_id' => '0' . rand(10, 99) . '.' . rand(100, 999) . '.' . rand(100, 999) . '.' . rand(1, 9) . '-000.' . rand(100, 999),
-                    'account_manager_id' => $this->f()->randomElement($this->userIds),
+                    'account_manager_id' => $this->faker()->randomElement($this->userIds),
                     'default_currency_id' => $this->currencyIds[0],
                     'default_language' => 'id',
                     'status' => $status,
@@ -430,7 +427,7 @@ class MassiveDemoSeeder extends Seeder
                         'phone' => '08' . rand(100000000, 999999999),
                         'position' => $j === 0 ? $positions[array_rand($positions)] : $positions[array_rand($positions)],
                         'is_primary' => $j === 0,
-                        'portal_access' => $this->f()->boolean(45),
+                        'portal_access' => $this->faker()->boolean(45),
                         'password' => bcrypt('password'),
                         'locale' => 'id',
                         'created_at' => now()->subDays(rand(30, 1095)),
@@ -475,25 +472,25 @@ class MassiveDemoSeeder extends Seeder
         ];
 
         for ($i = $existing + 1; $i <= $target; $i++) {
-            $statusId = $this->f()->randomElement($this->leadStatusIds);
+            $statusId = $this->faker()->randomElement($this->leadStatusIds);
             $leadScore = rand(0, 100);
             $leadScoreLevel = $leadScore >= 80 ? 'hot' : ($leadScore >= 50 ? 'warm' : 'cold');
 
             $leads[] = [
-                'name' => $this->f()->name,
-                'company' => $this->f()->randomElement($companies),
+                'name' => $this->faker()->name,
+                'company' => $this->faker()->randomElement($companies),
                 'email' => 'lead' . $i . '@demo.local',
                 'phone' => '08' . rand(100000000, 999999999),
                 'website' => 'https://prospek-' . $i . '.co.id',
-                'address' => $this->f()->address,
-                'city' => $this->f()->city,
+                'address' => $this->faker()->address,
+                'city' => $this->faker()->city,
                 'country' => 'ID',
                 'estimated_value' => $this->randomIdr(5_000_000, 250_000_000),
                 'currency_id' => $this->currencyIds[0],
-                'lead_source_id' => $this->f()->randomElement($this->leadSourceIds),
+                'lead_source_id' => $this->faker()->randomElement($this->leadSourceIds),
                 'lead_status_id' => $statusId,
-                'assigned_to' => $this->f()->randomElement($this->userIds),
-                'description' => 'Prospek dari ' . $this->f()->randomElement(['website', 'iklan FB', 'LinkedIn', 'event', 'referral', 'WhatsApp']) . '. Tertarik dengan layanan CRM dan integrasi sistem.',
+                'assigned_to' => $this->faker()->randomElement($this->userIds),
+                'description' => 'Prospek dari ' . $this->faker()->randomElement(['website', 'iklan FB', 'LinkedIn', 'event', 'referral', 'WhatsApp']) . '. Tertarik dengan layanan CRM dan integrasi sistem.',
                 'expected_close' => now()->addDays(rand(5, 120)),
                 'last_activity_at' => now()->subDays(rand(0, 30)),
                 'lead_score' => $leadScore,
@@ -538,20 +535,20 @@ class MassiveDemoSeeder extends Seeder
             ];
 
             for ($i = $existing + 1; $i <= $target; $i++) {
-                $status = $this->f()->randomElement($projectStatuses);
-                $billingMethod = $this->f()->randomElement($billingMethods);
+                $status = $this->faker()->randomElement($projectStatuses);
+                $billingMethod = $this->faker()->randomElement($billingMethods);
                 $startDate = now()->subDays(rand(0, 365));
                 $projects[] = [
                     'name' => $projectNames[array_rand($projectNames)] . ' #' . $i,
-                    'description' => 'Project pengembangan ' . $this->f()->words(3, true) . ' untuk klien. Mencakup analisis kebutuhan, implementasi, testing, dan deployment.',
-                    'client_id' => $this->f()->randomElement($this->clientIds),
-                    'project_manager_id' => $this->f()->randomElement($this->userIds),
+                    'description' => 'Project pengembangan ' . $this->faker()->words(3, true) . ' untuk klien. Mencakup analisis kebutuhan, implementasi, testing, dan deployment.',
+                    'client_id' => $this->faker()->randomElement($this->clientIds),
+                    'project_manager_id' => $this->faker()->randomElement($this->userIds),
                     'start_date' => $startDate,
                     'deadline' => (clone $startDate)->addDays(rand(30, 180)),
-                    'estimate_hours' => $this->f()->randomFloat(2, 20, 600),
+                    'estimate_hours' => $this->faker()->randomFloat(2, 20, 600),
                     'billing_method' => $billingMethod,
                     'fixed_price' => $billingMethod === 'fixed' ? $this->randomIdr(10_000_000, 200_000_000) : null,
-                    'hourly_rate' => $billingMethod === 'hourly' ? $this->f()->randomFloat(2, 100_000, 500_000) : null,
+                    'hourly_rate' => $billingMethod === 'hourly' ? $this->faker()->randomFloat(2, 100_000, 500_000) : null,
                     'currency_id' => $this->currencyIds[0],
                     'status' => $status,
                     'progress_pct' => match ($status) {
@@ -582,12 +579,12 @@ class MassiveDemoSeeder extends Seeder
                 $memberCount = rand(2, 4);
                 $used = [];
                 for ($j = 0; $j < $memberCount; $j++) {
-                    do { $uid = $this->f()->randomElement($this->userIds); } while (isset($used[$uid]));
+                    do { $uid = $this->faker()->randomElement($this->userIds); } while (isset($used[$uid]));
                     $used[$uid] = true;
                     $pmembers[] = [
                         'project_id' => $pid,
                         'user_id' => $uid,
-                        'role' => $this->f()->randomElement(['developer', 'designer', 'reviewer', 'manager', 'tester']),
+                        'role' => $this->faker()->randomElement(['developer', 'designer', 'reviewer', 'manager', 'tester']),
                         'added_at' => now()->subDays(rand(0, 90)),
                     ];
                 }
@@ -602,11 +599,11 @@ class MassiveDemoSeeder extends Seeder
                 for ($j = 1; $j <= 2; $j++) {
                     $milestones[] = [
                         'project_id' => $pid,
-                        'name' => ($j === 1 ? 'Fase Awal: ' : 'Fase Akhir: ') . ucfirst($this->f()->words(2, true)),
+                        'name' => ($j === 1 ? 'Fase Awal: ' : 'Fase Akhir: ') . ucfirst($this->faker()->words(2, true)),
                         'description' => 'Milestone ke-' . $j . ' project',
                         'due_date' => now()->addDays(rand(7, 120)),
                         'order' => $j,
-                        'complete_pct' => $this->f()->numberBetween(0, 100),
+                        'complete_pct' => $this->faker()->numberBetween(0, 100),
                         'created_at' => now()->subDays(rand(0, 60)),
                         'updated_at' => now(),
                     ];
@@ -636,23 +633,23 @@ class MassiveDemoSeeder extends Seeder
                 $projectMilestones = Milestone::where('project_id', $pid)->pluck('id')->toArray();
                 $taskCount = rand(4, 6);
                 for ($j = 1; $j <= $taskCount; $j++) {
-                    $status = $this->f()->randomElement($taskStatuses);
+                    $status = $this->faker()->randomElement($taskStatuses);
                     $tasks[] = [
                         'project_id' => $pid,
-                        'milestone_id' => $this->f()->randomElement($projectMilestones),
+                        'milestone_id' => $this->faker()->randomElement($projectMilestones),
                         'title' => $verbNouns[array_rand($verbNouns)] . ' ' . $objects[array_rand($objects)],
                         'description' => 'Task detail untuk implementasi dan testing.',
-                        'priority' => $this->f()->randomElement($priorities),
+                        'priority' => $this->faker()->randomElement($priorities),
                         'status' => $status,
                         'start_date' => now()->subDays(rand(0, 30)),
                         'due_date' => now()->addDays(rand(1, 60)),
-                        'estimate_hours' => $this->f()->randomFloat(2, 1, 40),
-                        'is_billable' => $this->f()->boolean(70),
-                        'hourly_rate' => $this->f()->randomFloat(2, 100_000, 500_000),
-                        'is_visible_to_customer' => $this->f()->boolean(30),
+                        'estimate_hours' => $this->faker()->randomFloat(2, 1, 40),
+                        'is_billable' => $this->faker()->boolean(70),
+                        'hourly_rate' => $this->faker()->randomFloat(2, 100_000, 500_000),
+                        'is_visible_to_customer' => $this->faker()->boolean(30),
                         'order' => $j,
                         'completed_at' => $status === 'done' ? now()->subDays(rand(1, 14)) : null,
-                        'created_by' => $this->f()->randomElement($this->userIds),
+                        'created_by' => $this->faker()->randomElement($this->userIds),
                         'created_at' => now()->subDays(rand(0, 90)),
                         'updated_at' => now(),
                     ];
@@ -669,7 +666,7 @@ class MassiveDemoSeeder extends Seeder
                 $assigneeCount = rand(1, 2);
                 $usedUids = [];
                 for ($j = 0; $j < $assigneeCount; $j++) {
-                    do { $uid = $this->f()->randomElement($this->userIds); } while (in_array($uid, $usedUids));
+                    do { $uid = $this->faker()->randomElement($this->userIds); } while (in_array($uid, $usedUids));
                     $usedUids[] = $uid;
                     $tAssigns[] = ['task_id' => $tid, 'user_id' => $uid, 'assigned_at' => now()->subDays(rand(0, 60))];
                 }
@@ -705,7 +702,7 @@ class MassiveDemoSeeder extends Seeder
             ];
 
             for ($i = $existing + 1; $i <= $target; $i++) {
-                $taskId = $this->f()->randomElement($this->taskIds);
+                $taskId = $this->faker()->randomElement($this->taskIds);
                 $task = Task::find($taskId);
                 $start = now()->subHours(rand(1, 500));
                 $minutes = rand(15, 480);
@@ -713,15 +710,15 @@ class MassiveDemoSeeder extends Seeder
 
                 $tEntries[] = [
                     'task_id' => $taskId,
-                    'project_id' => $task?->project_id ?? $this->f()->randomElement($this->projectIds),
-                    'user_id' => $this->f()->randomElement($this->userIds),
+                    'project_id' => $task?->project_id ?? $this->faker()->randomElement($this->projectIds),
+                    'user_id' => $this->faker()->randomElement($this->userIds),
                     'start_at' => $start,
                     'end_at' => $end,
                     'minutes' => $minutes,
-                    'hourly_rate' => $this->f()->randomFloat(2, 100_000, 500_000),
-                    'is_billable' => $this->f()->boolean(75),
+                    'hourly_rate' => $this->faker()->randomFloat(2, 100_000, 500_000),
+                    'is_billable' => $this->faker()->boolean(75),
                     'is_invoiced' => false,
-                    'note' => $this->f()->randomElement($descriptions),
+                    'note' => $this->faker()->randomElement($descriptions),
                     'created_at' => $start,
                     'updated_at' => $end,
                 ];
@@ -742,10 +739,10 @@ class MassiveDemoSeeder extends Seeder
                 if (Discussion::count() >= 50) break;
                 $discussions[] = [
                     'project_id' => $pid,
-                    'subject' => 'Diskusi: ' . ucfirst($this->f()->words(rand(3, 6), true)),
-                    'body' => $this->f()->paragraphs(rand(2, 4), true),
-                    'user_id' => $this->f()->randomElement($this->userIds),
-                    'is_visible_to_customer' => $this->f()->boolean(40),
+                    'subject' => 'Diskusi: ' . ucfirst($this->faker()->words(rand(3, 6), true)),
+                    'body' => $this->faker()->paragraphs(rand(2, 4), true),
+                    'user_id' => $this->faker()->randomElement($this->userIds),
+                    'is_visible_to_customer' => $this->faker()->boolean(40),
                     'created_at' => now()->subDays(rand(0, 90)),
                     'updated_at' => now(),
                 ];
@@ -762,8 +759,8 @@ class MassiveDemoSeeder extends Seeder
                 for ($j = 0; $j < $replyCount; $j++) {
                     $dReplies[] = [
                         'discussion_id' => $did,
-                        'body' => $this->f()->paragraph,
-                        'user_id' => $this->f()->randomElement($this->userIds),
+                        'body' => $this->faker()->paragraph,
+                        'user_id' => $this->faker()->randomElement($this->userIds),
                         'created_at' => now()->subDays(rand(0, 60)),
                         'updated_at' => now(),
                     ];
@@ -786,14 +783,14 @@ class MassiveDemoSeeder extends Seeder
 
             for ($i = $existing + 1; $i <= $target; $i++) {
                 $subtotal = $this->randomIdr(2_000_000, 150_000_000);
-                $discount = $this->f()->boolean(30) ? round($subtotal * $this->f()->randomFloat(2, 0.05, 0.20), 2) : 0;
+                $discount = $this->faker()->boolean(30) ? round($subtotal * $this->faker()->randomFloat(2, 0.05, 0.20), 2) : 0;
                 $taxTotal = round(($subtotal - $discount) * 0.11, 2);
                 $total = $subtotal - $discount + $taxTotal;
                 $estimateDate = now()->subDays(rand(0, 180));
 
                 $estimates[] = [
                     'number' => 'EST-' . date('Y') . '-' . str_pad($i, 6, '0', STR_PAD_LEFT),
-                    'client_id' => $this->f()->randomElement($this->clientIds),
+                    'client_id' => $this->faker()->randomElement($this->clientIds),
                     'estimate_date' => $estimateDate,
                     'expiry_date' => (clone $estimateDate)->addDays(rand(7, 30)),
                     'currency_id' => $this->currencyIds[0],
@@ -801,11 +798,11 @@ class MassiveDemoSeeder extends Seeder
                     'discount_total' => $discount,
                     'tax_total' => $taxTotal,
                     'total' => $total,
-                    'status' => $this->f()->randomElement(['draft', 'draft', 'sent', 'sent', 'sent', 'accepted', 'accepted', 'declined', 'expired']),
-                    'notes' => 'Estimasi biaya untuk ' . $this->f()->randomElement(['Pengembangan Website', 'Aplikasi Mobile', 'Sistem ERP', 'Dashboard Admin', 'Integrasi API', 'Konsultasi IT']),
+                    'status' => $this->faker()->randomElement(['draft', 'draft', 'sent', 'sent', 'sent', 'accepted', 'accepted', 'declined', 'expired']),
+                    'notes' => 'Estimasi biaya untuk ' . $this->faker()->randomElement(['Pengembangan Website', 'Aplikasi Mobile', 'Sistem ERP', 'Dashboard Admin', 'Integrasi API', 'Konsultasi IT']),
                     'terms' => 'Berlaku 14 hari sejak tanggal estimasi',
                     'public_token' => Str::random(40),
-                    'created_by' => $this->f()->randomElement($this->userIds),
+                    'created_by' => $this->faker()->randomElement($this->userIds),
                     'created_at' => $estimateDate,
                     'updated_at' => now(),
                 ];
@@ -827,15 +824,15 @@ class MassiveDemoSeeder extends Seeder
                 $itemCount = rand(2, 4);
                 for ($j = 1; $j <= $itemCount; $j++) {
                     $qty = rand(1, 10);
-                    $price = $this->f()->randomFloat(2, 500_000, 25_000_000);
+                    $price = $this->faker()->randomFloat(2, 500_000, 25_000_000);
                     $estItems[] = [
                         'estimate_id' => $eid,
-                        'item_id' => $this->f()->randomElement($this->itemIds),
-                        'description' => 'Item estimasi: ' . $this->f()->sentence(3),
+                        'item_id' => $this->faker()->randomElement($this->itemIds),
+                        'description' => 'Item estimasi: ' . $this->faker()->sentence(3),
                         'quantity' => $qty,
                         'unit_price' => $price,
-                        'tax_rate_id' => $this->f()->randomElement([null, ...$this->taxRateIds]),
-                        'discount_pct' => $this->f()->randomFloat(4, 0, 15),
+                        'tax_rate_id' => $this->faker()->randomElement([null, ...$this->taxRateIds]),
+                        'discount_pct' => $this->faker()->randomFloat(4, 0, 15),
                         'line_total' => round($qty * $price, 2),
                         'order' => $j,
                     ];
@@ -848,13 +845,13 @@ class MassiveDemoSeeder extends Seeder
         if (Proposal::count() < 100) {
             $proposals = [];
             for ($i = 1; $i <= 100; $i++) {
-                $status = $this->f()->randomElement(['draft', 'sent', 'accepted', 'declined']);
-                $content = '<h2>Proposal Layanan</h2><p>' . implode('</p><p>', $this->f()->paragraphs(rand(4, 8))) . '</p>';
+                $status = $this->faker()->randomElement(['draft', 'sent', 'accepted', 'declined']);
+                $content = '<h2>Proposal Layanan</h2><p>' . implode('</p><p>', $this->faker()->paragraphs(rand(4, 8))) . '</p>';
                 $proposals[] = [
                     'number' => 'PROP-' . date('Y') . '-' . str_pad($i, 5, '0', STR_PAD_LEFT),
-                    'subject' => 'Proposal: ' . ucfirst($this->f()->words(rand(3, 6), true)),
-                    'client_id' => $this->f()->randomElement($this->clientIds),
-                    'lead_id' => $this->f()->boolean(30) ? $this->f()->randomElement($this->leadIds) : null,
+                    'subject' => 'Proposal: ' . ucfirst($this->faker()->words(rand(3, 6), true)),
+                    'client_id' => $this->faker()->randomElement($this->clientIds),
+                    'lead_id' => $this->faker()->boolean(30) ? $this->faker()->randomElement($this->leadIds) : null,
                     'content' => $content,
                     'total' => $this->randomIdr(5_000_000, 300_000_000),
                     'currency_id' => $this->currencyIds[0],
@@ -863,12 +860,12 @@ class MassiveDemoSeeder extends Seeder
                     'is_template' => false,
                     'public_token' => Str::random(40),
                     'accepted_at' => $status === 'accepted' ? now()->subDays(rand(1, 60)) : null,
-                    'accepted_by_name' => $status === 'accepted' ? $this->f()->name : null,
-                    'accepted_signature' => $status === 'accepted' ? $this->f()->sha256 : null,
-                    'accepted_ip' => $status === 'accepted' ? $this->f()->ipv4 : null,
+                    'accepted_by_name' => $status === 'accepted' ? $this->faker()->name : null,
+                    'accepted_signature' => $status === 'accepted' ? $this->faker()->sha256 : null,
+                    'accepted_ip' => $status === 'accepted' ? $this->faker()->ipv4 : null,
                     'declined_at' => $status === 'declined' ? now()->subDays(rand(1, 30)) : null,
                     'decline_reason' => $status === 'declined' ? 'Harga terlalu tinggi dan tidak sesuai budget' : null,
-                    'created_by' => $this->f()->randomElement($this->userIds),
+                    'created_by' => $this->faker()->randomElement($this->userIds),
                     'created_at' => now()->subDays(rand(0, 180)),
                     'updated_at' => now(),
                 ];
@@ -883,18 +880,18 @@ class MassiveDemoSeeder extends Seeder
                 $startDate = now()->subDays(rand(0, 180));
                 $contracts[] = [
                     'number' => 'CON-' . date('Y') . '-' . str_pad($i, 5, '0', STR_PAD_LEFT),
-                    'subject' => 'Kontrak: ' . ucfirst($this->f()->words(rand(3, 6), true)),
-                    'client_id' => $this->f()->randomElement($this->clientIds),
-                    'content' => '<h2>Perjanjian Kerjasama</h2><p>' . implode('</p><p>', $this->f()->paragraphs(rand(5, 10))) . '</p>',
+                    'subject' => 'Kontrak: ' . ucfirst($this->faker()->words(rand(3, 6), true)),
+                    'client_id' => $this->faker()->randomElement($this->clientIds),
+                    'content' => '<h2>Perjanjian Kerjasama</h2><p>' . implode('</p><p>', $this->faker()->paragraphs(rand(5, 10))) . '</p>',
                     'start_date' => $startDate,
                     'end_date' => (clone $startDate)->addMonths(rand(3, 24)),
                     'contract_value' => $this->randomIdr(10_000_000, 500_000_000),
                     'currency_id' => $this->currencyIds[0],
-                    'status' => $this->f()->randomElement(['draft', 'sent', 'signed', 'signed', 'signed']),
+                    'status' => $this->faker()->randomElement(['draft', 'sent', 'signed', 'signed', 'signed']),
                     'is_template' => false,
                     'public_token' => Str::random(40),
                     'notify_expiry_days_before' => 30,
-                    'created_by' => $this->f()->randomElement($this->userIds),
+                    'created_by' => $this->faker()->randomElement($this->userIds),
                     'created_at' => $startDate,
                     'updated_at' => now(),
                 ];
@@ -917,21 +914,21 @@ class MassiveDemoSeeder extends Seeder
 
             for ($i = $existing + 1; $i <= $target; $i++) {
                 $subtotal = $this->randomIdr(1_000_000, 200_000_000);
-                $discount = $this->f()->boolean(20) ? round($subtotal * $this->f()->randomFloat(2, 0.05, 0.15), 2) : 0;
+                $discount = $this->faker()->boolean(20) ? round($subtotal * $this->faker()->randomFloat(2, 0.05, 0.15), 2) : 0;
                 $taxTotal = round(($subtotal - $discount) * 0.11, 2);
                 $total = $subtotal - $discount + $taxTotal;
-                $status = $this->f()->randomElement(['draft', 'sent', 'sent', 'paid', 'paid', 'paid', 'overdue', 'partial']);
+                $status = $this->faker()->randomElement(['draft', 'sent', 'sent', 'paid', 'paid', 'paid', 'overdue', 'partial']);
                 $paidTotal = match ($status) {
                     'paid' => $total,
-                    'partial' => round($total * $this->f()->randomFloat(2, 0.25, 0.75), 2),
+                    'partial' => round($total * $this->faker()->randomFloat(2, 0.25, 0.75), 2),
                     default => 0,
                 };
                 $invoiceDate = now()->subDays(rand(0, 180));
 
                 $invoices[] = [
                     'number' => 'INV-' . date('Y') . '-' . str_pad($i, 6, '0', STR_PAD_LEFT),
-                    'client_id' => $this->f()->randomElement($this->clientIds),
-                    'project_id' => $this->f()->boolean(35) ? $this->f()->randomElement($this->projectIds) : null,
+                    'client_id' => $this->faker()->randomElement($this->clientIds),
+                    'project_id' => $this->faker()->boolean(35) ? $this->faker()->randomElement($this->projectIds) : null,
                     'invoice_date' => $invoiceDate,
                     'due_date' => (clone $invoiceDate)->addDays(rand(14, 30)),
                     'currency_id' => $this->currencyIds[0],
@@ -942,11 +939,11 @@ class MassiveDemoSeeder extends Seeder
                     'paid_total' => $paidTotal,
                     'balance_due' => $total - $paidTotal,
                     'status' => $status,
-                    'is_recurring' => $this->f()->boolean(8),
-                    'notes' => 'Pembayaran untuk ' . $this->f()->randomElement($services),
+                    'is_recurring' => $this->faker()->boolean(8),
+                    'notes' => 'Pembayaran untuk ' . $this->faker()->randomElement($services),
                     'terms' => 'Pembayaran dalam 14 hari sejak tanggal faktur',
                     'public_token' => Str::random(40),
-                    'created_by' => $this->f()->randomElement($this->userIds),
+                    'created_by' => $this->faker()->randomElement($this->userIds),
                     'created_at' => $invoiceDate,
                     'updated_at' => now(),
                 ];
@@ -968,15 +965,15 @@ class MassiveDemoSeeder extends Seeder
                 $itemCount = rand(2, 5);
                 for ($j = 1; $j <= $itemCount; $j++) {
                     $qty = rand(1, 20);
-                    $price = $this->f()->randomFloat(2, 250_000, 50_000_000);
+                    $price = $this->faker()->randomFloat(2, 250_000, 50_000_000);
                     $invItems[] = [
                         'invoice_id' => $iid,
-                        'item_id' => $this->f()->randomElement($this->itemIds),
-                        'description' => 'Layanan: ' . $this->f()->sentence(3),
+                        'item_id' => $this->faker()->randomElement($this->itemIds),
+                        'description' => 'Layanan: ' . $this->faker()->sentence(3),
                         'quantity' => $qty,
                         'unit_price' => $price,
-                        'tax_rate_id' => $this->f()->randomElement([null, ...$this->taxRateIds]),
-                        'discount_pct' => $this->f()->randomFloat(4, 0, 10),
+                        'tax_rate_id' => $this->faker()->randomElement([null, ...$this->taxRateIds]),
+                        'discount_pct' => $this->faker()->randomFloat(4, 0, 10),
                         'line_total' => round($qty * $price, 2),
                         'order' => $j,
                     ];
@@ -990,13 +987,13 @@ class MassiveDemoSeeder extends Seeder
             $payments = [];
             for ($i = 1; $i <= 500; $i++) {
                 $payments[] = [
-                    'invoice_id' => $this->f()->randomElement($this->invoiceIds),
+                    'invoice_id' => $this->faker()->randomElement($this->invoiceIds),
                     'amount' => $this->randomIdr(500_000, 150_000_000),
                     'currency_id' => $this->currencyIds[0],
                     'paid_at' => now()->subDays(rand(0, 180)),
-                    'method' => $this->f()->randomElement(['bank_transfer', 'bank_transfer', 'bank_transfer', 'cash', 'ewallet', 'ewallet', 'qris']),
+                    'method' => $this->faker()->randomElement(['bank_transfer', 'bank_transfer', 'bank_transfer', 'cash', 'ewallet', 'ewallet', 'qris']),
                     'transaction_id' => 'TXN-' . strtoupper(Str::random(16)),
-                    'status' => $this->f()->randomElement(['completed', 'completed', 'completed', 'pending', 'failed']),
+                    'status' => $this->faker()->randomElement(['completed', 'completed', 'completed', 'pending', 'failed']),
                     'created_at' => now()->subDays(rand(0, 180)),
                     'updated_at' => now(),
                 ];
@@ -1009,22 +1006,22 @@ class MassiveDemoSeeder extends Seeder
             $cnotes = [];
             for ($i = 1; $i <= 100; $i++) {
                 $total = $this->randomIdr(500_000, 50_000_000);
-                $applied = round($total * $this->f()->randomFloat(2, 0.3, 1.0), 2);
-                $refunded = round(max(0, $total - $applied) * $this->f()->randomFloat(2, 0, 1), 2);
+                $applied = round($total * $this->faker()->randomFloat(2, 0.3, 1.0), 2);
+                $refunded = round(max(0, $total - $applied) * $this->faker()->randomFloat(2, 0, 1), 2);
                 $cnotes[] = [
                     'number' => 'CN-' . date('Y') . '-' . str_pad($i, 5, '0', STR_PAD_LEFT),
-                    'client_id' => $this->f()->randomElement($this->clientIds),
+                    'client_id' => $this->faker()->randomElement($this->clientIds),
                     'issue_date' => now()->subDays(rand(0, 120)),
                     'total' => $total,
                     'applied_total' => $applied,
                     'refunded_total' => $refunded,
                     'currency_id' => $this->currencyIds[0],
-                    'status' => $this->f()->randomElement(['draft', 'issued', 'applied', 'closed']),
-                    'reason' => $this->f()->randomElement([
+                    'status' => $this->faker()->randomElement(['draft', 'issued', 'applied', 'closed']),
+                    'reason' => $this->faker()->randomElement([
                         'Kelebihan pembayaran', 'Diskon retrospektif', 'Koreksi faktur',
                         'Pembatalan layanan', 'Garansi refund', 'Kompensasi keterlambatan',
                     ]),
-                    'created_by' => $this->f()->randomElement($this->userIds),
+                    'created_by' => $this->faker()->randomElement($this->userIds),
                     'created_at' => now()->subDays(rand(0, 120)),
                     'updated_at' => now(),
                 ];
@@ -1039,7 +1036,7 @@ class MassiveDemoSeeder extends Seeder
             foreach ($creditNoteIds as $cnId) {
                 $cnInvs[] = [
                     'credit_note_id' => $cnId,
-                    'invoice_id' => $this->f()->randomElement($this->invoiceIds),
+                    'invoice_id' => $this->faker()->randomElement($this->invoiceIds),
                     'amount_applied' => $this->randomIdr(250_000, 25_000_000),
                     'applied_at' => now()->subDays(rand(0, 60)),
                 ];
@@ -1078,16 +1075,16 @@ class MassiveDemoSeeder extends Seeder
             for ($i = $existing + 1; $i <= $target; $i++) {
                 $tickets[] = [
                     'number' => 'T-' . date('Y') . '-' . str_pad($i, 6, '0', STR_PAD_LEFT),
-                    'subject' => $this->f()->randomElement($ticketSubjects) . ' #' . $i,
-                    'body' => $this->f()->paragraphs(rand(2, 4), true),
-                    'client_id' => $this->f()->randomElement($this->clientIds),
-                    'contact_id' => $this->f()->boolean(50) ? $this->f()->randomElement($this->contactIds) : null,
-                    'department_id' => $this->f()->randomElement($this->departmentIds),
-                    'priority_id' => $this->f()->randomElement($this->ticketPriorityIds),
-                    'status_id' => $this->f()->randomElement($this->ticketStatusIds),
-                    'sla_policy_id' => $this->f()->randomElement([null, ...$slaPolicyIds]),
-                    'assigned_to' => $this->f()->randomElement($this->userIds),
-                    'related_project_id' => $this->f()->boolean(15) ? $this->f()->randomElement($this->projectIds) : null,
+                    'subject' => $this->faker()->randomElement($ticketSubjects) . ' #' . $i,
+                    'body' => $this->faker()->paragraphs(rand(2, 4), true),
+                    'client_id' => $this->faker()->randomElement($this->clientIds),
+                    'contact_id' => $this->faker()->boolean(50) ? $this->faker()->randomElement($this->contactIds) : null,
+                    'department_id' => $this->faker()->randomElement($this->departmentIds),
+                    'priority_id' => $this->faker()->randomElement($this->ticketPriorityIds),
+                    'status_id' => $this->faker()->randomElement($this->ticketStatusIds),
+                    'sla_policy_id' => $this->faker()->randomElement([null, ...$slaPolicyIds]),
+                    'assigned_to' => $this->faker()->randomElement($this->userIds),
+                    'related_project_id' => $this->faker()->boolean(15) ? $this->faker()->randomElement($this->projectIds) : null,
                     'created_at' => now()->subDays(rand(0, 180)),
                     'updated_at' => now(),
                 ];
@@ -1110,11 +1107,11 @@ class MassiveDemoSeeder extends Seeder
                 for ($j = 0; $j < $replyCount; $j++) {
                     $tReplies[] = [
                         'ticket_id' => $tid,
-                        'body' => $this->f()->paragraphs(rand(1, 3), true),
-                        'user_id' => $this->f()->randomElement([...$this->userIds, null]),
-                        'contact_id' => $j % 2 === 0 ? $this->f()->randomElement($this->contactIds) : null,
-                        'is_internal' => $this->f()->boolean(25),
-                        'source' => $this->f()->randomElement(['web', 'email', 'api']),
+                        'body' => $this->faker()->paragraphs(rand(1, 3), true),
+                        'user_id' => $this->faker()->randomElement([...$this->userIds, null]),
+                        'contact_id' => $j % 2 === 0 ? $this->faker()->randomElement($this->contactIds) : null,
+                        'is_internal' => $this->faker()->boolean(25),
+                        'source' => $this->faker()->randomElement(['web', 'email', 'api']),
                         'created_at' => now()->subDays(rand(0, 90)),
                         'updated_at' => now(),
                     ];
@@ -1161,13 +1158,13 @@ class MassiveDemoSeeder extends Seeder
                 $content .= '<p>CRM Office dirancang untuk membantu bisnis Indonesia mengelola hubungan pelanggan secara efisien. Artikel ini adalah bagian dari panduan lengkap penggunaan CRM Office.</p>';
                 $content .= '<h3>Langkah-langkah</h3><ol>';
                 for ($j = 1; $j <= rand(4, 7); $j++) {
-                    $content .= '<li>Langkah ke-' . $j . ': ' . $this->f()->sentence . '</li>';
+                    $content .= '<li>Langkah ke-' . $j . ': ' . $this->faker()->sentence . '</li>';
                 }
                 $content .= '</ol>';
                 $content .= '<p>Jika ada pertanyaan lebih lanjut, hubungi tim support kami melalui ticket atau email support@crmoffice.id.</p>';
 
                 $kbArticles[] = [
-                    'category_id' => $this->f()->randomElement($this->kbCatIds),
+                    'category_id' => $this->faker()->randomElement($this->kbCatIds),
                     'title' => $title,
                     'slug' => Str::slug($title) . '-' . $i,
                     'excerpt' => $template[1],
@@ -1176,7 +1173,7 @@ class MassiveDemoSeeder extends Seeder
                     'view_count' => rand(10, 5000),
                     'helpful_count' => rand(5, 300),
                     'unhelpful_count' => rand(0, 40),
-                    'author_id' => $this->f()->randomElement($this->userIds),
+                    'author_id' => $this->faker()->randomElement($this->userIds),
                     'published_at' => now()->subDays(rand(1, 365)),
                     'meta_title' => $title . ' | CRM Office Knowledge Base',
                     'meta_description' => $template[1],
@@ -1236,10 +1233,10 @@ class MassiveDemoSeeder extends Seeder
                 $blogPosts[] = [
                     'title' => $title,
                     'slug' => $slug,
-                    'content' => $this->f()->randomElement($blogContents),
+                    'content' => $this->faker()->randomElement($blogContents),
                     'excerpt' => 'Pelajari ' . strtolower(substr($title, 0, 80)) . '... dalam artikel lengkap yang membahas strategi praktis untuk bisnis Anda.',
-                    'category_id' => $this->f()->randomElement($this->blogCatIds),
-                    'author_id' => $this->f()->randomElement($this->userIds),
+                    'category_id' => $this->faker()->randomElement($this->blogCatIds),
+                    'author_id' => $this->faker()->randomElement($this->userIds),
                     'published_at' => $publishDate,
                     'is_published' => true,
                     'meta_title' => $title,
@@ -1277,7 +1274,7 @@ class MassiveDemoSeeder extends Seeder
                     'title' => $title,
                     'body' => $body,
                     'audience' => $audience,
-                    'author_id' => $this->f()->randomElement($this->userIds),
+                    'author_id' => $this->faker()->randomElement($this->userIds),
                     'publish_at' => now()->subDays(rand(0, 30)),
                     'expires_at' => now()->addDays(rand(7, 90)),
                     'created_at' => now()->subDays(rand(0, 30)),
@@ -1291,17 +1288,17 @@ class MassiveDemoSeeder extends Seeder
             $surveys = [];
             for ($i = 1; $i <= 20; $i++) {
                 $surveys[] = [
-                    'title' => 'Survei: ' . $this->f()->randomElement([
+                    'title' => 'Survei: ' . $this->faker()->randomElement([
                         'Kepuasan Pelanggan', 'Feedback Layanan', 'Kebutuhan Fitur',
                         'Pengalaman Support', 'Kualitas Produk', 'Minat Fitur Baru',
                     ]) . ' Q' . ceil($i / 4),
-                    'description' => $this->f()->sentence,
-                    'audience' => $this->f()->randomElement(['all_clients', 'recent_clients', 'all']),
+                    'description' => $this->faker()->sentence,
+                    'audience' => $this->faker()->randomElement(['all_clients', 'recent_clients', 'all']),
                     'public_token' => Str::random(32),
-                    'is_active' => $this->f()->boolean(80),
+                    'is_active' => $this->faker()->boolean(80),
                     'starts_at' => now()->subDays(rand(0, 60)),
                     'ends_at' => now()->addDays(rand(7, 90)),
-                    'created_by' => $this->f()->randomElement($this->userIds),
+                    'created_by' => $this->faker()->randomElement($this->userIds),
                     'created_at' => now()->subDays(rand(0, 60)),
                     'updated_at' => now(),
                 ];
@@ -1317,10 +1314,10 @@ class MassiveDemoSeeder extends Seeder
                 for ($j = 1; $j <= 5; $j++) {
                     $sQuestions[] = [
                         'survey_id' => $sid,
-                        'question' => 'Pertanyaan ' . $j . ': ' . $this->f()->sentence(4) . '?',
-                        'type' => $this->f()->randomElement(['text', 'rating', 'multiple_choice', 'yes_no']),
-                        'options' => json_encode($this->f()->randomElement([[], ['A', 'B', 'C', 'D']])),
-                        'is_required' => $this->f()->boolean(70),
+                        'question' => 'Pertanyaan ' . $j . ': ' . $this->faker()->sentence(4) . '?',
+                        'type' => $this->faker()->randomElement(['text', 'rating', 'multiple_choice', 'yes_no']),
+                        'options' => json_encode($this->faker()->randomElement([[], ['A', 'B', 'C', 'D']])),
+                        'is_required' => $this->faker()->boolean(70),
                         'order' => $j,
                     ];
                 }
@@ -1336,10 +1333,10 @@ class MassiveDemoSeeder extends Seeder
             $sResponses = [];
             for ($i = 1; $i <= 100; $i++) {
                 $sResponses[] = [
-                    'survey_id' => $this->f()->randomElement($surveyIds),
-                    'contact_id' => $this->f()->boolean(60) ? $this->f()->randomElement($this->contactIds) : null,
+                    'survey_id' => $this->faker()->randomElement($surveyIds),
+                    'contact_id' => $this->faker()->boolean(60) ? $this->faker()->randomElement($this->contactIds) : null,
                     'anonymous_token' => Str::random(16),
-                    'ip_address' => $this->f()->ipv4,
+                    'ip_address' => $this->faker()->ipv4,
                     'submitted_at' => now()->subDays(rand(0, 30)),
                 ];
             }
@@ -1354,12 +1351,12 @@ class MassiveDemoSeeder extends Seeder
             $sAnswers = [];
             foreach ($surveyResponseIds as $srid) {
                 $answerCount = rand(2, 5);
-                $questions = $this->f()->randomElements($surveyQuestionIds, $answerCount);
+                $questions = $this->faker()->randomElements($surveyQuestionIds, $answerCount);
                 foreach ($questions as $qid) {
                     $sAnswers[] = [
                         'response_id' => $srid,
                         'question_id' => $qid,
-                        'answer' => $this->f()->sentence(rand(1, 4)),
+                        'answer' => $this->faker()->sentence(rand(1, 4)),
                     ];
                 }
             }
@@ -1395,14 +1392,14 @@ class MassiveDemoSeeder extends Seeder
                 $subjects = $subjectTypes[$typeKey];
                 $activities[] = [
                     'subject_type' => $typeKey,
-                    'subject_id' => $this->f()->randomElement($subjects),
-                    'type' => $this->f()->randomElement($activityTypes),
-                    'subject' => $this->f()->sentence(rand(3, 6)),
-                    'description' => $this->f()->sentence,
-                    'user_id' => $this->f()->randomElement($this->userIds),
+                    'subject_id' => $this->faker()->randomElement($subjects),
+                    'type' => $this->faker()->randomElement($activityTypes),
+                    'subject' => $this->faker()->sentence(rand(3, 6)),
+                    'description' => $this->faker()->sentence,
+                    'user_id' => $this->faker()->randomElement($this->userIds),
                     'occurred_at' => now()->subDays(rand(0, 180)),
-                    'duration_minutes' => $this->f()->boolean(25) ? rand(5, 180) : null,
-                    'metadata' => json_encode(['source' => $this->f()->randomElement(['web', 'mobile', 'api', 'email'])]),
+                    'duration_minutes' => $this->faker()->boolean(25) ? rand(5, 180) : null,
+                    'metadata' => json_encode(['source' => $this->faker()->randomElement(['web', 'mobile', 'api', 'email'])]),
                     'created_at' => now()->subDays(rand(0, 180)),
                     'updated_at' => now(),
                 ];
@@ -1432,13 +1429,13 @@ class MassiveDemoSeeder extends Seeder
 
             for ($i = $existing + 1; $i <= $target; $i++) {
                 $typeKey = array_rand($notableTypes);
-                $noteBody = $this->f()->paragraphs(rand(1, 3), true);
+                $noteBody = $this->faker()->paragraphs(rand(1, 3), true);
 
                 $notes[] = [
                     'notable_type' => $typeKey,
-                    'notable_id' => $this->f()->randomElement($notableTypes[$typeKey]),
+                    'notable_id' => $this->faker()->randomElement($notableTypes[$typeKey]),
                     'body' => $noteBody,
-                    'user_id' => $this->f()->randomElement($this->userIds),
+                    'user_id' => $this->faker()->randomElement($this->userIds),
                     'created_at' => now()->subDays(rand(0, 180)),
                     'updated_at' => now(),
                 ];
@@ -1469,20 +1466,20 @@ class MassiveDemoSeeder extends Seeder
             ];
 
             for ($i = 1; $i <= 100; $i++) {
-                $allDay = $this->f()->boolean(15);
-                $isUpcoming = $this->f()->boolean(50);
+                $allDay = $this->faker()->boolean(15);
+                $isUpcoming = $this->faker()->boolean(50);
                 $start = $isUpcoming ? now()->addDays(rand(1, 60))->setHour(rand(7, 17))->setMinute(0) :
                     now()->subDays(rand(0, 60))->setHour(rand(7, 17))->setMinute(0);
 
                 $events[] = [
-                    'user_id' => $this->f()->randomElement($this->userIds),
-                    'title' => $this->f()->randomElement($eventLabels) . ' #' . $i,
-                    'description' => $this->f()->boolean(60) ? $this->f()->sentence : null,
+                    'user_id' => $this->faker()->randomElement($this->userIds),
+                    'title' => $this->faker()->randomElement($eventLabels) . ' #' . $i,
+                    'description' => $this->faker()->boolean(60) ? $this->faker()->sentence : null,
                     'starts_at' => $start,
                     'ends_at' => $allDay ? (clone $start)->addHours(8) : (clone $start)->addHours(rand(1, 3)),
                     'all_day' => $allDay,
                     'color' => $colors[array_rand($colors)],
-                    'reminder_minutes_before' => $this->f()->randomElement([10, 15, 30, 60, 1440, null]),
+                    'reminder_minutes_before' => $this->faker()->randomElement([10, 15, 30, 60, 1440, null]),
                     'created_at' => now()->subDays(rand(0, 90)),
                     'updated_at' => now(),
                 ];
@@ -1500,15 +1497,15 @@ class MassiveDemoSeeder extends Seeder
             for ($i = 1; $i <= 50; $i++) {
                 $target = $this->randomIdr(5_000_000, 500_000_000);
                 $goals[] = [
-                    'user_id' => $this->f()->randomElement($this->userIds),
-                    'name' => 'Target ' . ucfirst($this->f()->words(rand(2, 4), true)),
-                    'description' => 'Mencapai target ' . strtolower($this->f()->words(2, true)) . ' dalam periode yang ditentukan.',
-                    'metric' => $this->f()->randomElement(['revenue', 'leads', 'projects', 'tickets_resolved', 'hours_logged', 'deals_closed']),
+                    'user_id' => $this->faker()->randomElement($this->userIds),
+                    'name' => 'Target ' . ucfirst($this->faker()->words(rand(2, 4), true)),
+                    'description' => 'Mencapai target ' . strtolower($this->faker()->words(2, true)) . ' dalam periode yang ditentukan.',
+                    'metric' => $this->faker()->randomElement(['revenue', 'leads', 'projects', 'tickets_resolved', 'hours_logged', 'deals_closed']),
                     'target' => $target,
-                    'current' => round($target * $this->f()->randomFloat(2, 0.10, 0.95), 2),
+                    'current' => round($target * $this->faker()->randomFloat(2, 0.10, 0.95), 2),
                     'start_date' => now()->subDays(rand(0, 90)),
                     'end_date' => now()->addDays(rand(30, 270)),
-                    'status' => $this->f()->randomElement(['in_progress', 'in_progress', 'in_progress', 'completed', 'not_started']),
+                    'status' => $this->faker()->randomElement(['in_progress', 'in_progress', 'in_progress', 'completed', 'not_started']),
                     'created_at' => now()->subDays(rand(0, 90)),
                     'updated_at' => now(),
                 ];
@@ -1549,9 +1546,9 @@ class MassiveDemoSeeder extends Seeder
                     'title' => $titles[$idx] . $suffix,
                     'content' => $contents[$idx],
                     'category' => $categories[$idx % count($categories)],
-                    'department_id' => $this->f()->randomElement([...$this->departmentIds, null]),
-                    'created_by' => $this->f()->randomElement($this->userIds),
-                    'is_shared' => $this->f()->boolean(70),
+                    'department_id' => $this->faker()->randomElement([...$this->departmentIds, null]),
+                    'created_by' => $this->faker()->randomElement($this->userIds),
+                    'is_shared' => $this->faker()->boolean(70),
                     'created_at' => now()->subDays(rand(0, 90)),
                     'updated_at' => now(),
                 ];
@@ -1578,18 +1575,18 @@ class MassiveDemoSeeder extends Seeder
 
             for ($i = $existing + 1; $i <= $target; $i++) {
                 $expenses[] = [
-                    'expense_category_id' => $this->f()->randomElement($this->expenseCategoryIds),
-                    'client_id' => $this->f()->boolean(40) ? $this->f()->randomElement($this->clientIds) : null,
-                    'project_id' => $this->f()->boolean(25) ? $this->f()->randomElement($this->projectIds) : null,
-                    'vendor' => $this->f()->randomElement($vendors),
-                    'description' => 'Biaya: ' . $this->f()->sentence,
+                    'expense_category_id' => $this->faker()->randomElement($this->expenseCategoryIds),
+                    'client_id' => $this->faker()->boolean(40) ? $this->faker()->randomElement($this->clientIds) : null,
+                    'project_id' => $this->faker()->boolean(25) ? $this->faker()->randomElement($this->projectIds) : null,
+                    'vendor' => $this->faker()->randomElement($vendors),
+                    'description' => 'Biaya: ' . $this->faker()->sentence,
                     'amount' => $this->randomIdr(50_000, 50_000_000),
                     'currency_id' => $this->currencyIds[0],
-                    'tax_rate_id' => $this->f()->randomElement([null, ...$this->taxRateIds]),
+                    'tax_rate_id' => $this->faker()->randomElement([null, ...$this->taxRateIds]),
                     'expense_date' => now()->subDays(rand(0, 365)),
-                    'is_billable' => $this->f()->boolean(35),
+                    'is_billable' => $this->faker()->boolean(35),
                     'is_invoiced' => false,
-                    'created_by' => $this->f()->randomElement($this->userIds),
+                    'created_by' => $this->faker()->randomElement($this->userIds),
                     'created_at' => now()->subDays(rand(0, 365)),
                     'updated_at' => now(),
                 ];
