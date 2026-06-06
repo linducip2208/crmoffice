@@ -55,6 +55,12 @@ use Illuminate\Support\Str;
 
 class MassiveDemoSeeder extends Seeder
 {
+    protected $faker;
+
+    public function __construct()
+    {
+        $this->faker = \Faker\Factory::create('id_ID');
+    }
     protected array $userIds = [];
     protected array $clientIds = [];
     protected array $contactIds = [];
@@ -82,7 +88,7 @@ class MassiveDemoSeeder extends Seeder
 
     public function run(): void
     {
-        $this->faker = fake('id_ID');
+        $this->faker = $this->faker;
 
         DB::disableQueryLog();
 
