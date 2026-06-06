@@ -7,11 +7,6 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * Block ALL routes (admin, user, storefront, anything) until the app is paired
- * to a license. Only `/__pair*` and a small dev-allowlist are accessible
- * without a valid .license.lock for the current host.
- */
 class RequirePair
 {
     public function __construct(private LicenseClient $client) {}
@@ -30,7 +25,6 @@ class RequirePair
             return $next($request);
         }
 
-        // Not paired (or invalid/tampered) — redirect to wizard
         return redirect()->to('/__pair');
     }
 
@@ -45,20 +39,22 @@ class RequirePair
         if ($path === '/up') return true;
         if (str_starts_with($path, '/_debugbar')) return true;
 
-        // Public marketing / docs / SEO pages
-        if ($path === '/') return true;
-        if ($path === '/docs' || str_starts_with($path, '/docs/')) return true;
-        if ($path === '/sitemap.xml') return true;
-        if ($path === '/robots.txt') return true;
-        if ($path === '/healthz') return true;
-
-        // Localhost dev bypass
-        if (config('license.dev_bypass') && app()->environment('local')) {
+        // Dev bypass (local + test domains)
+        if (config('license.dev_bypass')) {
             $host = $request->getHost();
             if ($this->isDevHost($host)) return true;
         }
 
-        return false;
+        // Only require license for admin/portal/api
+        if (str_starts_with($path, '/admin')) return false;
+        if (str_starts_with($path, '/portal')) return false;
+        if (str_starts_with($path, '/api')) return false;
+        if (str_starts_with($path, '/livewire')) return false;
+        if (str_starts_with($path, '/webhooks')) return false;
+        if (str_starts_with($path, '/two-factor')) return false;
+
+        // Everything else is public — allow
+        return true;
     }
 
     private function isDevHost(string $host): bool
