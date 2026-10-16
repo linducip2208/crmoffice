@@ -40,6 +40,11 @@ class ProposalResource extends Resource
         return ProposalsTable::configure($table);
     }
 
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->with(['client', 'lead', 'currency']);
+    }
+
     public static function getRelations(): array
     {
         return [

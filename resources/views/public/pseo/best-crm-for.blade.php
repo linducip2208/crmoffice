@@ -71,7 +71,7 @@
   <section class="faq">
     <h2>Frequently Asked Questions</h2>
     <details><summary>Berapa biaya CRM untuk {{ strtolower($data['display']) }}?</summary><p>crmoffice tersedia self-host (gratis dengan setup sendiri). Kompetitor SaaS bisa US$15–US$100/user/bulan tergantung tier.</p></details>
-    <details><summary>Bisa migrasi data dari CRM lama?</summary><p>Ya. crmoffice support CSV import untuk clients & leads, plus migration script untuk Perfex CRM.</p></details>
+    <details><summary>Bisa migrasi data dari CRM lama?</summary><p>Ya. crmoffice support CSV import untuk clients, leads, dan invoices — siap pakai tanpa scripting.</p></details>
     <details><summary>Apakah crmoffice support multi-currency?</summary><p>Ya. IDR sebagai base, USD/EUR/SGD opsional. Setiap invoice forever dalam currency sendiri.</p></details>
     <details><summary>Bagaimana dengan integrasi payment Indonesia?</summary><p>crmoffice pakai format-based adapter (RedirectFlow, EmbedFlow, QrFlow). Owner input credentials Midtrans/Xendit/DOKU/QRIS sendiri di admin — tidak hardcoded.</p></details>
     <details><summary>Apakah ada Flutter mobile app?</summary><p>API Sanctum sudah siap. Flutter app dalam roadmap Phase 9.</p></details>

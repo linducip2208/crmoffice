@@ -9,7 +9,7 @@
 
 ## 1. Vision
 
-`crmoffice` adalah **self-hostable, multi-tenant-capable Business CRM** untuk agency, freelancer, dan SMB yang menggantikan Perfex CRM dengan:
+`crmoffice` adalah **self-hostable, multi-tenant-capable Business CRM** untuk agency, freelancer, dan SMB yang menggantikan CRM PHP lawas dengan:
 
 - UX modern (**Filament 5** admin + Inertia/Vue 3 portal) — bukan jQuery-era PHP.
 - Modular yang bersih — setiap modul bisa di-disable per tenant.
@@ -29,9 +29,9 @@
 | **SMB** (5–50 karyawan) | Butuh CRM + project management + helpdesk dalam satu suite, on-premise atau private cloud |
 | **IT Services / MSP** | Ticketing system + asset/client tracking + recurring billing |
 
-## 3. Differentiator vs Perfex
+## 3. Differentiator vs CRM PHP lawas
 
-| Dimension | Perfex CRM | crmoffice |
+| Dimension | CRM PHP lawas | crmoffice |
 |---|---|---|
 | Stack | CodeIgniter 3 + jQuery | Laravel 11 + Vue 3 + Filament 3 |
 | Admin UX | Custom jQuery tables, slow | Filament 3 (modern, fast, accessible) |

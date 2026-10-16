@@ -43,6 +43,7 @@ class NotesRelationManager extends RelationManager
     {
         return $table
             ->recordTitleAttribute('id')
+            ->modifyQueryUsing(fn (\Illuminate\Database\Eloquent\Builder $query) => $query->with('user'))
             ->columns([
                 TextColumn::make('notable_type')
                     ->searchable(),

@@ -5,8 +5,8 @@ namespace App\Filament\Admin\Resources\Tasks\Schemas;
 use App\Models\Milestone;
 use App\Models\Project;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Grid;
-use Filament\Forms\Components\Section;
+use Filament\Schemas\Components\Grid;
+use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
@@ -19,18 +19,18 @@ class TaskForm
     {
         return $schema->components([
             Section::make('Task')->schema([
-                TextInput::make('title')->label(__('crm.fields.title'))->required()->maxLength(255)->columnSpanFull(),
-                Textarea::make('description')->label(__('crm.fields.description'))->rows(3)->columnSpanFull(),
+                TextInput::make('title')->label(__('crm.field.title'))->required()->maxLength(255)->columnSpanFull(),
+                Textarea::make('description')->label(__('crm.field.description'))->rows(3)->columnSpanFull(),
                 Grid::make(2)->schema([
-                    Select::make('project_id')->label(__('crm.fields.project_id'))
+                    Select::make('project_id')->label(__('crm.field.project_id'))
                         ->options(fn () => Project::orderBy('name')->pluck('name', 'id'))
                         ->searchable()->live(),
-                    Select::make('milestone_id')->label(__('crm.fields.milestone_id'))
+                    Select::make('milestone_id')->label(__('crm.field.milestone_id'))
                         ->options(fn ($get) => $get('project_id')
                             ? Milestone::where('project_id', $get('project_id'))->pluck('name', 'id')
                             : []),
                 ]),
-                Select::make('parent_task_id')->label(__('crm.fields.parent_id'))
+                Select::make('parent_task_id')->label(__('crm.field.parent_id'))
                     ->options(function ($get, $record) {
                         $projectId = $get('project_id');
                         if (! $projectId) return [];
@@ -44,24 +44,24 @@ class TaskForm
                     ->nullable()
                     ->helperText('Subtask akan tampil di bawah parent task ini.'),
                 Grid::make(4)->schema([
-                    Select::make('status')->label(__('crm.fields.task_status'))->options([
+                    Select::make('status')->label(__('crm.field.task_status'))->options([
                         'todo' => 'To Do', 'in_progress' => 'In Progress', 'in_review' => 'In Review',
                         'done' => 'Done', 'cancelled' => 'Cancelled',
                     ])->default('todo')->required(),
-                    Select::make('priority')->label(__('crm.fields.priority'))->options([
+                    Select::make('priority')->label(__('crm.field.priority'))->options([
                         'low' => 'Low', 'medium' => 'Medium', 'high' => 'High', 'urgent' => 'Urgent',
                     ])->default('medium')->required(),
-                    DatePicker::make('start_date')->label(__('crm.fields.start_date'))->displayFormat('d M Y'),
-                    DatePicker::make('due_date')->label(__('crm.fields.due_date'))->displayFormat('d M Y'),
+                    DatePicker::make('start_date')->label(__('crm.field.start_date'))->displayFormat('d M Y'),
+                    DatePicker::make('due_date')->label(__('crm.field.due_date'))->displayFormat('d M Y'),
                 ]),
-                Select::make('assignees')->label(__('crm.fields.assignees'))->multiple()->relationship('assignees', 'name')->preload()->searchable()->columnSpanFull(),
+                Select::make('assignees')->label(__('crm.field.assignees'))->multiple()->relationship('assignees', 'name')->preload()->searchable()->columnSpanFull(),
             ]),
 
             Section::make('Billable & Estimate')->schema([
                 Grid::make(3)->schema([
-                    Toggle::make('is_billable')->label(__('crm.fields.is_billable'))->default(false),
-                    TextInput::make('estimate_hours')->label(__('crm.fields.estimated_hours'))->numeric()->minValue(0)->suffix('h'),
-                    TextInput::make('hourly_rate')->label(__('crm.fields.hourly_rate'))->numeric()->prefix('Rp')->suffix('/h'),
+                    Toggle::make('is_billable')->label(__('crm.field.is_billable'))->default(false),
+                    TextInput::make('estimate_hours')->label(__('crm.field.estimated_hours'))->numeric()->minValue(0)->suffix('h'),
+                    TextInput::make('hourly_rate')->label(__('crm.field.hourly_rate'))->numeric()->prefix('Rp')->suffix('/h'),
                 ]),
             ])->collapsed(),
 

@@ -12,7 +12,7 @@ class RevenueChartWidget extends Widget
     protected static ?int $sort = 2;
     protected int|string|array $columnSpan = 'full';
     protected string $view = 'filament.admin.widgets.revenue-chart';
-    protected static ?string $heading = 'Revenue (12 months)';
+    protected static ?string $heading = 'Revenue';
 
     protected static function isVisibleToRole(array $roles): bool
     {
@@ -21,32 +21,38 @@ class RevenueChartWidget extends Widget
 
     protected function getViewData(): array
     {
+        // Data 24 bulan sekaligus — pemilihan rentang (3/6/12/24M) dilakukan di client
+        // agar perpindahan periode instan tanpa roundtrip ke server.
         $months = [];
-        $revenue = [];
-        $outstanding = [];
+        $monthKeys = [];
 
-        for ($i = 11; $i >= 0; $i--) {
-            $date = now()->subMonths($i);
-            $months[] = $date->format('M Y');
-
-            $revenue[] = (int) Invoice::query()
-                ->where('status', 'paid')
-                ->whereMonth('invoice_date', $date->month)
-                ->whereYear('invoice_date', $date->year)
-                ->sum('total');
-
-            $outstanding[] = (int) Invoice::query()
-                ->whereIn('status', ['sent', 'partial', 'overdue'])
-                ->whereMonth('invoice_date', $date->month)
-                ->whereYear('invoice_date', $date->year)
-                ->sum('total');
+        for ($i = 23; $i >= 0; $i--) {
+            $date = now()->startOfMonth()->subMonths($i);
+            $monthKeys[] = $date->format('Y-m');
+            $months[] = $date->translatedFormat('M Y');
         }
+
+        $start = now()->startOfMonth()->subMonths(23);
+
+        // Dua query agregat — jauh lebih murah dari loop per bulan.
+        $paidByMonth = Invoice::query()
+            ->where('status', 'paid')
+            ->where('invoice_date', '>=', $start)
+            ->selectRaw("DATE_FORMAT(invoice_date, '%Y-%m') as ym, SUM(total) as total")
+            ->groupBy('ym')
+            ->pluck('total', 'ym');
+
+        $outstandingByMonth = Invoice::query()
+            ->whereIn('status', ['sent', 'partial', 'overdue'])
+            ->where('invoice_date', '>=', $start)
+            ->selectRaw("DATE_FORMAT(invoice_date, '%Y-%m') as ym, SUM(total) as total")
+            ->groupBy('ym')
+            ->pluck('total', 'ym');
 
         return [
             'months' => $months,
-            'revenue' => $revenue,
-            'outstanding' => $outstanding,
+            'revenue' => array_map(fn ($k) => (int) ($paidByMonth[$k] ?? 0), $monthKeys),
+            'outstanding' => array_map(fn ($k) => (int) ($outstandingByMonth[$k] ?? 0), $monthKeys),
         ];
     }
-
 }

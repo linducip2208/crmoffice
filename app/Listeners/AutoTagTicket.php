@@ -5,10 +5,16 @@ namespace App\Listeners;
 use App\Adapters\Llm\LlmAdapterFactory;
 use App\Events\TicketOpened;
 use App\Models\TicketPriority;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Support\Facades\Log;
 
-class AutoTagTicket
+class AutoTagTicket implements ShouldQueue
 {
+    /** Jangan biarkan retry beruntun membakar token LLM saat provider down. */
+    public int $tries = 2;
+
+    public int $timeout = 120;
+
     public function handle(TicketOpened $event): void
     {
         $ticket = $event->ticket;

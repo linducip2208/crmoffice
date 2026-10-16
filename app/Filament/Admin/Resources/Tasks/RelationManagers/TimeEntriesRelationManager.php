@@ -56,6 +56,7 @@ class TimeEntriesRelationManager extends RelationManager
     {
         return $table
             ->recordTitleAttribute('id')
+            ->modifyQueryUsing(fn (\Illuminate\Database\Eloquent\Builder $query) => $query->with(['project', 'user', 'invoiceItem']))
             ->columns([
                 TextColumn::make('project.name')
                     ->searchable(),

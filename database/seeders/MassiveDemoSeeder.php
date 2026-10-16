@@ -589,7 +589,11 @@ class MassiveDemoSeeder extends Seeder
                     ];
                 }
             }
-            $this->chunk(ProjectMember::class, $pmembers);
+            foreach (array_chunk($pmembers, self::CHUNK) as $chunk) {
+                // insertOrIgnore: hindari bentrok unique (project_id, user_id)
+                // saat seeder di-run ulang / di-resume.
+                ProjectMember::insertOrIgnore($chunk);
+            }
         }
 
         // Milestones — 200 (avg 2 per project)
@@ -672,7 +676,9 @@ class MassiveDemoSeeder extends Seeder
                 }
             }
             foreach (array_chunk($tAssigns, self::CHUNK) as $chunk) {
-                DB::table('task_assignees')->insert($chunk);
+                // insertOrIgnore: pasangan (task_id, user_id) bisa sudah ada —
+                // dari DemoContentSeeder atau run sebelumnya yang belum selesai.
+                DB::table('task_assignees')->insertOrIgnore($chunk);
             }
         }
 
@@ -1032,8 +1038,11 @@ class MassiveDemoSeeder extends Seeder
 
         // Credit Note Invoices
         if (DB::table('credit_note_invoices')->count() < 150) {
+            // Resume-safe: hanya buat link untuk credit note yang belum punya,
+            // supaya run ulang tidak menumpuk duplikat.
+            $linkedCnIds = DB::table('credit_note_invoices')->pluck('credit_note_id')->all();
             $cnInvs = [];
-            foreach ($creditNoteIds as $cnId) {
+            foreach (array_diff($creditNoteIds, $linkedCnIds) as $cnId) {
                 $cnInvs[] = [
                     'credit_note_id' => $cnId,
                     'invoice_id' => $this->faker()->randomElement($this->invoiceIds),

@@ -12,36 +12,36 @@ class TaskPolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_task');
+        return $user->can('view_any.task');
     }
 
     public function view(User $user, Task $task): bool
     {
-        return $user->can('view_task');
+        return $user->can('view.task');
     }
 
     public function create(User $user): bool
     {
-        return $user->can('create_task');
+        return $user->can('create.task');
     }
 
     public function update(User $user, Task $task): bool
     {
-        return $user->can('update_task');
+        return $user->can('update.task');
     }
 
     public function delete(User $user, Task $task): bool
     {
-        return $user->can('delete_task');
+        return $user->can('delete.task');
     }
 
     public function restore(User $user, Task $task): bool
     {
-        return $user->can('restore_task');
+        return $user->can('delete.task');
     }
 
     public function forceDelete(User $user, Task $task): bool
     {
-        return $user->can('force_delete_task');
+        return $user->can('delete.task');
     }
 }

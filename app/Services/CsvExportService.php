@@ -21,7 +21,7 @@ class CsvExportService
 
             fputcsv($handle, array_keys($columns));
 
-            $query->chunk(500, function ($records) use ($handle, $columns) {
+            $query->chunkById(500, function ($records) use ($handle, $columns) {
                 foreach ($records as $record) {
                     $row = [];
                     foreach ($columns as $accessor) {

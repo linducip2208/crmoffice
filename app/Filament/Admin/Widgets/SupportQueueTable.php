@@ -27,15 +27,16 @@ class SupportQueueTable extends TableWidget
                 Ticket::query()
                     ->whereNull('resolved_at')
                     ->whereNull('closed_at')
-                    ->with(['client', 'priority', 'assignedTo'])
+                    ->with(['client', 'priority', 'assignee'])
                     ->latest()
+                    ->limit(8)
             )
             ->columns([
                 TextColumn::make('number')->searchable(),
                 TextColumn::make('subject')->searchable()->limit(40),
                 TextColumn::make('client.company_name')->label('Client'),
                 TextColumn::make('priority.name')->badge(),
-                TextColumn::make('assignedTo.name')->label('Agent'),
+                TextColumn::make('assignee.name')->label('Agent'),
                 TextColumn::make('created_at')->date('d M Y')->sinceTooltip(),
             ])
             ->paginated(false)

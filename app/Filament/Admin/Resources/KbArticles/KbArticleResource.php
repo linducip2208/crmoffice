@@ -40,6 +40,11 @@ class KbArticleResource extends Resource
         return KbArticlesTable::configure($table);
     }
 
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->with(['category', 'author']);
+    }
+
     public static function getRelations(): array
     {
         return [

@@ -64,6 +64,7 @@ class ExpensesRelationManager extends RelationManager
     {
         return $table
             ->recordTitleAttribute('description')
+            ->modifyQueryUsing(fn (\Illuminate\Database\Eloquent\Builder $query) => $query->with(['client', 'currency', 'taxRate']))
             ->columns([
                 TextColumn::make('expense_category_id')
                     ->numeric()

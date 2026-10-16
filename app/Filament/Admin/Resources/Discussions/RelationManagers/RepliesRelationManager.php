@@ -39,6 +39,7 @@ class RepliesRelationManager extends RelationManager
     {
         return $table
             ->recordTitleAttribute('id')
+            ->modifyQueryUsing(fn (\Illuminate\Database\Eloquent\Builder $query) => $query->with(['user', 'contact']))
             ->columns([
                 TextColumn::make('user.name')
                     ->searchable(),

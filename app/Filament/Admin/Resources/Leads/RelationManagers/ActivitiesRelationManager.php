@@ -50,6 +50,7 @@ class ActivitiesRelationManager extends RelationManager
     {
         return $table
             ->recordTitleAttribute('subject')
+            ->modifyQueryUsing(fn (\Illuminate\Database\Eloquent\Builder $query) => $query->with('user'))
             ->columns([
                 TextColumn::make('subject_type')
                     ->searchable(),

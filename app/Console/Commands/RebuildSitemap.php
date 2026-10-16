@@ -13,7 +13,10 @@ class RebuildSitemap extends Command
 
     public function handle(): int
     {
-        Cache::forget('sitemap.xml');
+        // Samakan dengan key yang dipakai SitemapController:
+        // CACHE_KEY_INDEX = 'sitemap_index_xml', CACHE_KEY_CHUNKS = 'sitemap_chunks_meta'.
+        Cache::forget('sitemap_index_xml');
+        Cache::forget('sitemap_chunks_meta');
         $this->info('Sitemap cache cleared.');
 
         return self::SUCCESS;

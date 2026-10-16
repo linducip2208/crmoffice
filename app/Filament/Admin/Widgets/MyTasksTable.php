@@ -23,7 +23,7 @@ class MyTasksTable extends TableWidget
                     ->whereHas('assignees', fn ($q) => $q->where('user_id', auth()->id()))
                     ->whereNotIn('status', ['done', 'cancelled'])
                     ->with('project')
-                    ->latest('due_date')
+                    ->limit(8)
             )
             ->columns([
                 TextColumn::make('title')->searchable()->limit(40),
@@ -33,6 +33,6 @@ class MyTasksTable extends TableWidget
                 TextColumn::make('due_date')->date('d M Y')->sinceTooltip(),
             ])
             ->paginated(false)
-            ->defaultSort('priority_order', 'asc');
+            ->defaultSort('due_date', 'asc');
     }
 }

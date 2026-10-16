@@ -12,36 +12,36 @@ class InvoicePolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_invoice');
+        return $user->can('view_any.invoice');
     }
 
     public function view(User $user, Invoice $invoice): bool
     {
-        return $user->can('view_invoice');
+        return $user->can('view.invoice');
     }
 
     public function create(User $user): bool
     {
-        return $user->can('create_invoice');
+        return $user->can('create.invoice');
     }
 
     public function update(User $user, Invoice $invoice): bool
     {
-        return $user->can('update_invoice');
+        return $user->can('update.invoice');
     }
 
     public function delete(User $user, Invoice $invoice): bool
     {
-        return $user->can('delete_invoice');
+        return $user->can('delete.invoice');
     }
 
     public function restore(User $user, Invoice $invoice): bool
     {
-        return $user->can('restore_invoice');
+        return $user->can('delete.invoice');
     }
 
     public function forceDelete(User $user, Invoice $invoice): bool
     {
-        return $user->can('force_delete_invoice');
+        return $user->can('delete.invoice');
     }
 }

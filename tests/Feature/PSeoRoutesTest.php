@@ -17,14 +17,14 @@ class PSeoRoutesTest extends TestCase
     public function test_alternatives_to_renders(): void
     {
         $this->withoutMiddleware(\App\Http\Middleware\RequirePair::class)
-            ->get('/alternatives-to-perfex')
+            ->get('/alternatives-to-hubspot')
             ->assertOk();
     }
 
     public function test_compare_renders(): void
     {
         $this->withoutMiddleware(\App\Http\Middleware\RequirePair::class)
-            ->get('/compare/crmoffice-vs-perfex')
+            ->get('/compare/crmoffice-vs-hubspot')
             ->assertOk();
     }
 

@@ -12,36 +12,36 @@ class SurveyPolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_survey');
+        return $user->can('view_any.survey');
     }
 
     public function view(User $user, Survey $survey): bool
     {
-        return $user->can('view_survey');
+        return $user->can('view.survey');
     }
 
     public function create(User $user): bool
     {
-        return $user->can('create_survey');
+        return $user->can('create.survey');
     }
 
     public function update(User $user, Survey $survey): bool
     {
-        return $user->can('update_survey');
+        return $user->can('update.survey');
     }
 
     public function delete(User $user, Survey $survey): bool
     {
-        return $user->can('delete_survey');
+        return $user->can('delete.survey');
     }
 
     public function restore(User $user, Survey $survey): bool
     {
-        return $user->can('restore_survey');
+        return $user->can('delete.survey');
     }
 
     public function forceDelete(User $user, Survey $survey): bool
     {
-        return $user->can('force_delete_survey');
+        return $user->can('delete.survey');
     }
 }

@@ -526,7 +526,7 @@ Detail di [09-PSEO.md](./09-PSEO.md). High-level:
 - KB public site
 - pSEO routes:
   - `/best-crm-for-{industry}` (e.g., agencies, freelancers, real-estate, MSPs)
-  - `/alternatives-to-{competitor}` (perfex, freshsales, hubspot, zoho, monday, asana with CRM tag)
+  - `/alternatives-to-{competitor}` (freshsales, hubspot, zoho, monday, asana with CRM tag)
   - `/compare/crmoffice-vs-{competitor}`
   - `/crm-for-{country}` (where local features matter — Indonesia, Singapore, Malaysia, Philippines, Vietnam, Thailand)
 

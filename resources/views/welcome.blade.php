@@ -66,7 +66,7 @@
   <div class="wrap">
     <span class="build-tag">v0.1.0 build · Laravel 13 + Filament 5</span>
     <h1>Self-hostable Business CRM<br><span>untuk agency &amp; SMB</span></h1>
-    <p>Modern alternatif Perfex CRM. Clients, leads, invoices, projects, tickets — semuanya dalam satu suite. Provider integrasi dinamis (bawa key sendiri), pSEO bawaan, API siap Flutter.</p>
+    <p>Modern alternatif CRM SaaS. Clients, leads, invoices, projects, tickets — semuanya dalam satu suite. Provider integrasi dinamis (bawa key sendiri), pSEO bawaan, API siap Flutter.</p>
     <div class="hero-actions">
       <a class="btn btn-primary" href="/admin">Login Admin →</a>
       <a class="btn btn-outline" href="/api/v1/health">API Status</a>
@@ -90,7 +90,7 @@
   <div class="wrap">
     <h2 class="features-title">Built right from day one</h2>
     <div class="feature-grid">
-      <div class="feature"><div class="feature-badge">⚡</div><h3>Modern stack</h3><p>Laravel 13.7, Filament 5, MySQL 8, Redis. Bukan CodeIgniter era jQuery seperti Perfex.</p></div>
+      <div class="feature"><div class="feature-badge">⚡</div><h3>Modern stack</h3><p>Laravel 13.7, Filament 5, MySQL 8, Redis. Bukan framework PHP usang era jQuery.</p></div>
       <div class="feature"><div class="feature-badge">🔌</div><h3>BYO integrations</h3><p>Payment gateway, mail, SMS, storage, LLM — semua dinamis. Owner input credentials di admin UI, tidak ada vendor lock-in.</p></div>
       <div class="feature"><div class="feature-badge">🔎</div><h3>pSEO bawaan</h3><p>140+ programmatic SEO pages out of the box. Best CRM for X, Alternatives to Y, Compare A vs B.</p></div>
       <div class="feature"><div class="feature-badge">📱</div><h3>API-first</h3><p>Sanctum REST API documented per endpoint, siap konsumsi Flutter app di Phase 2.</p></div>

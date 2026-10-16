@@ -50,6 +50,11 @@ class LeadResource extends Resource
         return LeadsTable::configure($table);
     }
 
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->with(['status', 'source', 'assignedTo']);
+    }
+
     public static function getRelations(): array
     {
                 return [

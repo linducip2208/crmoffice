@@ -2,15 +2,15 @@
 
 namespace App\Filament\Admin\Resources\Providers\Schemas;
 
-use Filament\Forms\Components\Grid;
+use Filament\Schemas\Components\Grid;
 use Filament\Forms\Components\KeyValue;
-use Filament\Forms\Components\Placeholder;
-use Filament\Forms\Components\Section;
+use Filament\Schemas\Components\Text;
+use Filament\Schemas\Components\Section;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
-use Filament\Forms\Get;
-use Filament\Forms\Set;
+use Filament\Schemas\Components\Utilities\Get;
+use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\File;
 
@@ -47,6 +47,57 @@ class ProviderForm
         }
 
         return json_decode(File::get($path), true);
+    }
+
+    /**
+     * State KeyValue di Livewire berbentuk pasangan [{key, value}].
+     * Konversi dari format apa pun (assoc atau pairs) ke bentuk pairs.
+     */
+    protected static function configToPairs(mixed $state): array
+    {
+        if (!is_array($state) || $state === []) {
+            return [];
+        }
+
+        $first = $state[array_key_first($state)];
+
+        if (is_array($first) && array_key_exists('key', $first)) {
+            return array_values(array_filter(
+                array_map(fn ($row) => ['key' => $row['key'], 'value' => $row['value'] ?? null], $state),
+                fn ($row) => filled($row['key']),
+            ));
+        }
+
+        return array_values(array_map(
+            fn ($value, $key) => ['key' => (string) $key, 'value' => $value],
+            $state,
+            array_keys($state),
+        ));
+    }
+
+    protected static function configValue(mixed $state, string $key): mixed
+    {
+        foreach (static::configToPairs($state) as $row) {
+            if ((string) $row['key'] === $key) {
+                return $row['value'];
+            }
+        }
+
+        return null;
+    }
+
+    protected static function configUpsert(mixed $state, string $key, mixed $value): array
+    {
+        $pairs = array_values(array_filter(
+            static::configToPairs($state),
+            fn ($row) => (string) $row['key'] !== $key,
+        ));
+
+        if (filled($value)) {
+            $pairs[] = ['key' => $key, 'value' => $value];
+        }
+
+        return $pairs;
     }
 
     public static function configure(Schema $schema): Schema
@@ -93,13 +144,13 @@ class ProviderForm
                             $set('base_url', $preset['base_url'] ?? '');
 
                             $extraConfig = $preset['extra_config'] ?? [];
-                            $set('extra_config', $extraConfig);
+                            $set('extra_config', static::configToPairs($extraConfig));
+                            $set('default_model_selector', static::configValue($extraConfig, 'default_model'));
                             $set('preset_notes', $preset['notes'] ?? '');
                         }),
 
-                    Placeholder::make('preset_notes')
-                        ->hidden(fn (Get $get): bool => empty($get('preset_notes')))
-                        ->content(fn (Get $get): string => (string) $get('preset_notes')),
+                    Text::make(fn (Get $get): string => (string) $get('preset_notes'))
+                        ->hidden(fn (Get $get): bool => empty($get('preset_notes'))),
                 ]),
 
             Section::make('Provider Identity')->schema([
@@ -214,14 +265,20 @@ class ProviderForm
             ])->collapsible(),
 
             Section::make('Adapter Configuration')->schema([
-                Select::make('extra_config.default_model')
+                Select::make('default_model_selector')
                     ->label('Default Model')
                     ->options(fn (Get $get) => static::modelSuggestions($get('api_format')))
                     ->searchable()
                     ->nullable()
                     ->hidden(fn (Get $get) => $get('type') !== 'llm')
                     ->helperText('Pilih model AI yang akan dipakai. Bisa di-override per fitur di AI Settings.')
-                    ->live(),
+                    ->live()
+                    ->afterStateHydrated(function ($component, Get $get): void {
+                        $component->state(static::configValue($get('extra_config'), 'default_model'));
+                    })
+                    ->afterStateUpdated(function (Set $set, Get $get, ?string $state): void {
+                        $set('extra_config', static::configUpsert($get('extra_config'), 'default_model', $state));
+                    }),
 
                 KeyValue::make('extra_config')
                     ->label('Additional Config (Key-Value)')

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Portal;
 
 use App\Http\Controllers\Controller;
 use App\Models\Ticket;
+use App\Services\NumberSequence;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
@@ -59,8 +60,7 @@ class PortalTicketController extends Controller
             'priority_id' => 'required|exists:ticket_priorities,id',
         ]);
 
-        $lastNumber = Ticket::max('id') ?? 0;
-        $number = 'T-' . str_pad($lastNumber + 1, 4, '0', STR_PAD_LEFT);
+        $number = NumberSequence::next('ticket');
 
         $openStatus = \App\Models\TicketStatus::where('is_open', true)->first();
 

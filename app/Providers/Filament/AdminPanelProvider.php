@@ -45,12 +45,17 @@ class AdminPanelProvider extends PanelProvider
             )
             ->renderHook(
                 PanelsRenderHook::BODY_END,
+                fn (): \Illuminate\Contracts\View\View => view('filament.admin.partials.charts'),
+            )
+            ->renderHook(
+                PanelsRenderHook::BODY_END,
                 fn (): \Illuminate\Contracts\View\View => view('filament.admin.partials.ai-chat-assistant'),
             )
-            ->brandName('Admin')
-            ->brandLogo(fn () => new HtmlString('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" width="48" height="48"><rect width="48" height="48" rx="12" fill="url(#lg)"/><path d="M14 20l6-6 8 8-6 6-8-8z" fill="#fff" opacity="0.9"/><path d="M22 27l6-6 8 8-6 6-8-8z" fill="#fff" opacity="0.6"/><defs><linearGradient id="lg" x1="0" y1="0" x2="48" y2="48"><stop stop-color="#4f46e5"/><stop offset="1" stop-color="#7c3aed"/></linearGradient></defs></svg>'))
+            ->brandName(fn () => config('app.name'))
+            ->brandLogo(fn () => new HtmlString('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" width="48" height="48"><rect width="48" height="48" rx="12" fill="url(#lg)"/><path d="M14 20l6-6 8 8-6 6-8-8z" fill="#fff" opacity="0.9"/><path d="M22 27l6-6 8 8-6 6-8-8z" fill="#fff" opacity="0.6"/><defs><linearGradient id="lg" x1="0" y1="0" x2="48" y2="48"><stop stop-color="#10b981"/><stop offset="1" stop-color="#0d9488"/></linearGradient></defs></svg>'))
             ->colors([
-                'primary' => Color::Indigo,
+                'primary' => Color::Emerald,
+                'gray' => Color::Stone,
             ])
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->darkMode(true)
@@ -59,16 +64,16 @@ class AdminPanelProvider extends PanelProvider
             ->collapsedSidebarWidth('4rem')
             ->topbar(true)
             ->navigationGroups([
-                NavigationGroup::make('🏢 Master Data')->collapsed(false),
-                NavigationGroup::make('💼 CRM')->collapsed(false),
-                NavigationGroup::make('💰 Penjualan')->collapsed(false),
-                NavigationGroup::make('📊 Finance')->collapsed(true),
-                NavigationGroup::make('📋 Proyek')->collapsed(false),
-                NavigationGroup::make('🎧 Support')->collapsed(true),
-                NavigationGroup::make('📈 Laporan')->collapsed(true),
-                NavigationGroup::make('📣 Marketing')->collapsed(true),
-                NavigationGroup::make('🔌 Integrasi')->collapsed(true),
-                NavigationGroup::make('⚙️ Sistem')->collapsed(true),
+                NavigationGroup::make('Master Data')->collapsed(false),
+                NavigationGroup::make('CRM')->collapsed(false),
+                NavigationGroup::make('Penjualan')->collapsed(false),
+                NavigationGroup::make('Finance')->collapsed(true),
+                NavigationGroup::make('Proyek')->collapsed(false),
+                NavigationGroup::make('Support')->collapsed(true),
+                NavigationGroup::make('Laporan')->collapsed(true),
+                NavigationGroup::make('Marketing')->collapsed(true),
+                NavigationGroup::make('Integrasi')->collapsed(true),
+                NavigationGroup::make('Sistem')->collapsed(true),
             ])
             ->discoverResources(in: app_path('Filament/Admin/Resources'), for: 'App\\Filament\\Admin\\Resources')
             ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')

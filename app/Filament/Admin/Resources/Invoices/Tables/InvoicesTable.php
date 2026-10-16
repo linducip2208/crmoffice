@@ -25,9 +25,9 @@ class InvoicesTable
                 TextColumn::make('due_date')->date('d M Y')->sortable()
                     ->color(fn ($record) => $record->due_date && $record->due_date->isPast() && $record->status !== 'paid' ? 'danger' : null),
                 TextColumn::make('currency.code')->label('Cur')->badge()->color('gray'),
-                TextColumn::make('total')->money('IDR')->sortable(),
-                TextColumn::make('paid_total')->money('IDR')->toggleable(),
-                TextColumn::make('balance_due')->money('IDR')->toggleable(),
+                TextColumn::make('total')->money(fn ($record) => $record->currency?->code ?? 'IDR')->sortable(),
+                TextColumn::make('paid_total')->money(fn ($record) => $record->currency?->code ?? 'IDR')->toggleable(),
+                TextColumn::make('balance_due')->money(fn ($record) => $record->currency?->code ?? 'IDR')->toggleable(),
                 TextColumn::make('status')->badge()->color(fn (string $state): string => match ($state) {
                     'paid' => 'success',
                     'sent', 'partial' => 'warning',

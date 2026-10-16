@@ -50,6 +50,13 @@ class TaskResource extends Resource
         return TasksTable::configure($table);
     }
 
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()
+            ->with(['project', 'parent', 'milestone', 'assignees'])
+            ->withCount('subtasks');
+    }
+
     public static function getRelations(): array
     {
                 return [

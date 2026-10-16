@@ -148,6 +148,7 @@ class TicketsRelationManager extends RelationManager
             ->modifyQueryUsing(fn (Builder $query) => $query
                 ->withoutGlobalScopes([
                     SoftDeletingScope::class,
-                ]));
+                ])
+                ->with(['contact', 'department', 'priority', 'status', 'slaPolicy']));
     }
 }

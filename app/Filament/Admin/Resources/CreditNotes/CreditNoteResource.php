@@ -38,6 +38,11 @@ class CreditNoteResource extends Resource
         return CreditNotesTable::configure($table);
     }
 
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        return parent::getEloquentQuery()->with(['client', 'currency']);
+    }
+
     public static function getRelations(): array
     {
         return [

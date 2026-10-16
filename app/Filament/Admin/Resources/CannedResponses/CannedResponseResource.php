@@ -48,6 +48,11 @@ class CannedResponseResource extends Resource
         return CannedResponsesTable::configure($table);
     }
 
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        return parent::getEloquentQuery()->with(['department', 'creator']);
+    }
+
     public static function getRelations(): array
     {
         return [

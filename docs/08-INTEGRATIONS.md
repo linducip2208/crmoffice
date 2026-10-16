@@ -12,7 +12,7 @@
 
 ## 1. Why Dynamic?
 
-| Hardcoded approach (Perfex-style) | Dynamic approach (this app) |
+| Hardcoded approach (legacy CRM style) | Dynamic approach (this app) |
 |---|---|
 | `MidtransAdapter`, `StripeAdapter`, `XenditAdapter`, … | `RedirectFlowAdapter`, `EmbedFlowAdapter`, `QrFlowAdapter` |
 | New gateway → developer release | New gateway → owner adds via admin UI |
@@ -369,12 +369,12 @@ For LLM providers with `/v1/models`-compatible endpoint:
 
 ---
 
-## 12. Migration from Hardcoded (For Existing Perfex Users)
+## 12. Migration from Hardcoded (For Existing Legacy Installations)
 
-For users migrating from Perfex:
-- Documented migration script: reads Perfex `tblpayment_modes` table → creates one Provider row per active gateway
-- Documented mapping table from Perfex gateway class names → our `api_format` values
-- Migration tool in CLI: `php artisan migrate:from-perfex --source-db=... --map=payment`
+For users migrating from a legacy CRM installation:
+- Documented migration script: reads the legacy payment modes table → creates one Provider row per active gateway
+- Documented mapping table from legacy gateway class names → our `api_format` values
+- Migration tool in CLI: `php artisan migrate:from-legacy --source-db=... --map=payment`
 
 ---
 

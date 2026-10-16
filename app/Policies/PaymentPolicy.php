@@ -12,36 +12,36 @@ class PaymentPolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_payment');
+        return $user->can('view_any.payment');
     }
 
     public function view(User $user, Payment $payment): bool
     {
-        return $user->can('view_payment');
+        return $user->can('view.payment');
     }
 
     public function create(User $user): bool
     {
-        return $user->can('create_payment');
+        return $user->can('create.payment');
     }
 
     public function update(User $user, Payment $payment): bool
     {
-        return $user->can('update_payment');
+        return $user->can('create.payment');
     }
 
     public function delete(User $user, Payment $payment): bool
     {
-        return $user->can('delete_payment');
+        return $user->can('delete.payment');
     }
 
     public function restore(User $user, Payment $payment): bool
     {
-        return $user->can('restore_payment');
+        return $user->can('delete.payment');
     }
 
     public function forceDelete(User $user, Payment $payment): bool
     {
-        return $user->can('force_delete_payment');
+        return $user->can('delete.payment');
     }
 }

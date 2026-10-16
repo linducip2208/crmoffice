@@ -26,7 +26,7 @@ class ListClients extends ListRecords
                 ->color('success')
                 ->action(function (CsvExportService $csv) {
                     return $csv->download(
-                        query: $this->getFilteredSortedTableQuery(),
+                        query: $this->getFilteredSortedTableQuery()->withCount('contacts'),
                         columns: [
                             'Company' => 'company_name',
                             'Industry' => 'industry',

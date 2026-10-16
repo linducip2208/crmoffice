@@ -91,9 +91,11 @@ class IcsFeedController extends Controller
 
     private function getTicketDeadlines(User $user): array
     {
-        return Ticket::where('resolve_due_at', '>=', now()->subDays(30))
+        return Ticket::with(['priority', 'status'])
+            ->where('resolve_due_at', '>=', now()->subDays(30))
             ->where('assigned_to', $user->id)
             ->orderBy('resolve_due_at')
+            ->limit(500)
             ->get()
             ->all();
     }

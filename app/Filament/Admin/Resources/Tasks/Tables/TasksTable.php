@@ -24,13 +24,13 @@ class TasksTable
                 TextColumn::make('parent.title')->label('Parent')->placeholder('—')->toggleable(),
                 TextColumn::make('subtask_count')->label('Subtasks')->state(fn ($record) => $record->subtask_count)->placeholder('—')->toggleable(),
                 TextColumn::make('milestone.name')->label('Milestone')->placeholder('—')->toggleable(),
-                TextColumn::make('priority')->badge()->color(fn (string $s) => match ($s) {
+                TextColumn::make('priority')->badge()->color(fn (string $state) => match ($state) {
                     'urgent' => 'danger', 'high' => 'warning', 'medium' => 'primary', default => 'gray',
                 }),
-                TextColumn::make('status')->badge()->color(fn (string $s) => match ($s) {
+                TextColumn::make('status')->badge()->color(fn (string $state) => match ($state) {
                     'done' => 'success', 'in_progress' => 'warning', 'in_review' => 'info',
                     'cancelled' => 'danger', default => 'gray',
-                })->formatStateUsing(fn ($s) => str_replace('_', ' ', ucfirst($s))),
+                })->formatStateUsing(fn ($state) => str_replace('_', ' ', ucfirst($state))),
                 TextColumn::make('due_date')->date('d M Y')->sortable()->placeholder('—')
                     ->color(fn ($record) => $record->due_date && $record->due_date->isPast() && $record->status !== 'done' ? 'danger' : null),
                 TextColumn::make('assignees.name')->label('Assigned')->badge()->color('gray')->listWithLineBreaks()->limitList(2)->toggleable(),

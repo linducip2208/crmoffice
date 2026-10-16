@@ -38,6 +38,11 @@ class ExpenseResource extends Resource
         return ExpensesTable::configure($table);
     }
 
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        return parent::getEloquentQuery()->with(['client', 'project', 'currency', 'taxRate']);
+    }
+
     public static function getRelations(): array
     {
         return [

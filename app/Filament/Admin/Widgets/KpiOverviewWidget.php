@@ -83,29 +83,29 @@ class KpiOverviewWidget extends Widget
         return [
             [
                 'label' => 'MTD Revenue',
-                'value' => number_format($thisMonth, 0),
+                'value' => number_format($thisMonth, 0, ',', '.'),
                 'trend' => $this->trend($thisMonth, $lastMonth),
-                'icon' => '💵',
+                'icon' => 'heroicon-o-banknotes',
             ],
             [
                 'label' => 'MTD Target',
-                'value' => $target !== null ? number_format($target, 0) : '—',
+                'value' => $target !== null ? number_format($target, 0, ',', '.') : '—',
                 'trend' => $target !== null && $target > 0
                     ? ['pct' => round(($thisMonth / $target) * 100, 1), 'up' => true]
                     : null,
-                'icon' => '🎯',
+                'icon' => 'heroicon-o-flag',
             ],
             [
                 'label' => 'Outstanding AR',
-                'value' => number_format($outstanding, 0),
+                'value' => number_format($outstanding, 0, ',', '.'),
                 'trend' => $this->trend($outstanding, $lastMonthOutstanding, true),
-                'icon' => '📊',
+                'icon' => 'heroicon-o-chart-bar',
             ],
             [
                 'label' => 'Collection Rate',
-                'value' => $collectionRate . '%',
+                'value' => number_format($collectionRate, 1, ',', '.') . '%',
                 'trend' => ['pct' => round($collectionRate - $lastCollectionRate, 1), 'up' => $collectionRate >= $lastCollectionRate],
-                'icon' => '✅',
+                'icon' => 'heroicon-o-check-badge',
             ],
         ];
     }
@@ -154,25 +154,25 @@ class KpiOverviewWidget extends Widget
                 'label' => 'Total Clients',
                 'value' => (string) $totalClients,
                 'trend' => $this->trend($totalClients, $lastMonthClients),
-                'icon' => '🏢',
+                'icon' => 'heroicon-o-building-office-2',
             ],
             [
                 'label' => 'New Leads (MTD)',
                 'value' => (string) $newLeads,
                 'trend' => $this->trend($newLeads, $lastMonthLeads),
-                'icon' => '👋',
+                'icon' => 'heroicon-o-user-plus',
             ],
             [
                 'label' => 'Conversion Rate',
-                'value' => $conversionRate . '%',
+                'value' => number_format($conversionRate, 1, ',', '.') . '%',
                 'trend' => ['pct' => round($conversionRate - $lastConversionRate, 1), 'up' => $conversionRate >= $lastConversionRate],
-                'icon' => '🔄',
+                'icon' => 'heroicon-o-arrow-path',
             ],
             [
                 'label' => 'Pipeline Value',
-                'value' => number_format($pipelineValue, 0),
+                'value' => number_format($pipelineValue, 0, ',', '.'),
                 'trend' => $this->trend($pipelineValue, $lastPipelineValue),
-                'icon' => '💰',
+                'icon' => 'heroicon-o-chart-pie',
             ],
         ];
     }
@@ -219,27 +219,27 @@ class KpiOverviewWidget extends Widget
                 'label' => 'Active Projects',
                 'value' => (string) $activeProjects,
                 'trend' => $this->trend($activeProjects, $lastActiveProjects),
-                'icon' => '📋',
+                'icon' => 'heroicon-o-folder-open',
             ],
             [
                 'label' => 'Avg Progress',
-                'value' => round($avgProgress, 1) . '%',
+                'value' => number_format($avgProgress, 1, ',', '.') . '%',
                 'trend' => $maxProgress > 0
                     ? ['pct' => round($avgProgress, 1), 'up' => $avgProgress >= 50]
                     : null,
-                'icon' => '📈',
+                'icon' => 'heroicon-o-presentation-chart-line',
             ],
             [
                 'label' => 'Overdue Tasks',
                 'value' => (string) $overdueTasks,
                 'trend' => $this->trend($overdueTasks, $lastOverdueTasks, true),
-                'icon' => '⚠️',
+                'icon' => 'heroicon-o-exclamation-triangle',
             ],
             [
                 'label' => 'Completed (MTD)',
                 'value' => (string) $completedThisMonth,
                 'trend' => $this->trend($completedThisMonth, $completedLastMonth),
-                'icon' => '✅',
+                'icon' => 'heroicon-o-check-badge',
             ],
         ];
     }
@@ -318,30 +318,30 @@ class KpiOverviewWidget extends Widget
                 'label' => 'Open Tickets',
                 'value' => (string) $openTickets,
                 'trend' => $this->trend($openTickets, $lastOpenTickets, true),
-                'icon' => '🎫',
+                'icon' => 'heroicon-o-ticket',
             ],
             [
                 'label' => 'Avg First Response',
-                'value' => $avgResponseHours !== null ? $avgResponseHours . 'h' : '—',
+                'value' => $avgResponseHours !== null ? number_format($avgResponseHours, 1, ',', '.') . ' jam' : '—',
                 'trend' => $avgResponseHours !== null && $lastAvgResponseHours !== null
                     ? [
                         'pct' => round($lastAvgResponseHours - $avgResponseHours, 1),
                         'up' => $avgResponseHours <= $lastAvgResponseHours,
                     ]
                     : null,
-                'icon' => '⏱️',
+                'icon' => 'heroicon-o-clock',
             ],
             [
                 'label' => 'SLA Compliance',
-                'value' => $slaRate . '%',
+                'value' => number_format($slaRate, 1, ',', '.') . '%',
                 'trend' => ['pct' => round($slaRate - $lastSlaRate, 1), 'up' => $slaRate >= $lastSlaRate],
-                'icon' => '🛡️',
+                'icon' => 'heroicon-o-shield-check',
             ],
             [
                 'label' => 'Resolved (MTD)',
                 'value' => (string) $resolvedThisMonth,
                 'trend' => $this->trend($resolvedThisMonth, $resolvedLastMonth),
-                'icon' => '✅',
+                'icon' => 'heroicon-o-check-badge',
             ],
         ];
     }

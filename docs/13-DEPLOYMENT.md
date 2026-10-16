@@ -306,14 +306,14 @@ Test restore quarterly.
 
 `/healthz` endpoint returns 200 with `{ok: true, checks: {mysql, cache, queue}}` or 503 if any check fails.
 
-## 7. Migration from Perfex CRM
+## 7. Migration from a Legacy CRM
 
 Phase 9 deliverable. Shape:
 ```bash
-php artisan migrate:from-perfex --source-host=... --source-db=... --map=payment
+php artisan migrate:from-legacy --source-host=... --source-db=... --map=payment
 ```
 
-Reads Perfex `tblpayment_modes`, `tblclients`, `tblinvoices`, etc., maps to crmoffice schema.
+Reads the legacy CRM's payment modes, clients, invoices tables, etc., maps to crmoffice schema.
 
 ## 8. Scale-out
 

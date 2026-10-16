@@ -373,12 +373,6 @@ return [
     ],
 
     'competitors' => [
-        'perfex' => [
-            'display' => 'Perfex CRM',
-            'tagline' => 'CodeIgniter-based, CodeCanyon license',
-            'pros' => ['Cheap one-time license', 'Wide feature set', 'Active marketplace'],
-            'cons' => ['Legacy stack (CI3 + jQuery)', 'Obfuscated source (ionCube)', 'Hardcoded gateways', 'Outdated UX'],
-        ],
         'hubspot' => [
             'display' => 'HubSpot CRM',
             'tagline' => 'Marketing-led growth platform',

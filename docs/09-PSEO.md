@@ -52,7 +52,6 @@
 ### 2.2 "Alternatives to Competitor" Pages
 
 ```
-/alternatives-to-perfex
 /alternatives-to-freshsales
 /alternatives-to-hubspot
 /alternatives-to-zoho-crm
@@ -77,7 +76,6 @@
 ### 2.3 "Compare A vs B" Pages
 
 ```
-/compare/crmoffice-vs-perfex
 /compare/crmoffice-vs-freshsales
 /compare/crmoffice-vs-hubspot
 /compare/crmoffice-vs-zoho-crm
@@ -88,9 +86,9 @@
 /compare/crmoffice-vs-bitrix24
 /compare/crmoffice-vs-vtiger
 /compare/crmoffice-vs-espocrm
-/compare/perfex-vs-freshsales
-/compare/perfex-vs-zoho-crm
-/compare/perfex-vs-bitrix24
+/compare/freshsales-vs-zoho-crm
+/compare/zoho-crm-vs-bitrix24
+/compare/hubspot-vs-bitrix24
 /compare/freshsales-vs-hubspot
 /compare/hubspot-vs-zoho-crm
 /compare/zoho-crm-vs-pipedrive
@@ -178,7 +176,7 @@ Example ItemList for `best-crm-for-agencies`:
   "name": "Best CRM for Agencies 2026",
   "itemListElement": [
     { "@type": "ListItem", "position": 1, "item": { "@type": "SoftwareApplication", "name": "crmoffice", "url": "..." } },
-    { "@type": "ListItem", "position": 2, "item": { "@type": "SoftwareApplication", "name": "Perfex CRM", "url": "..." } },
+    { "@type": "ListItem", "position": 2, "item": { "@type": "SoftwareApplication", "name": "Freshsales", "url": "..." } },
     ...
   ]
 }
@@ -269,7 +267,7 @@ return [
         ...
     ],
     'competitors' => [
-        'perfex' => ['display' => 'Perfex CRM', 'website' => '...', 'pricing_model' => 'one-time license', 'pros' => [...], 'cons' => [...], 'feature_matrix' => [...]],
+        'hubspot' => ['display' => 'HubSpot CRM', 'website' => '...', 'pricing_model' => 'freemium SaaS', 'pros' => [...], 'cons' => [...], 'feature_matrix' => [...]],
         'freshsales' => [...],
         ...
     ],
@@ -391,7 +389,7 @@ Automated check: `php artisan pseo:audit` walks all routes, validates word count
 
 ## 7. Optional Boosters (Phase 3+)
 
-- **User-generated comparisons** — `/compare/perfex-vs-zoho-crm` allows submitted reviews
+- **User-generated comparisons** — `/compare/freshsales-vs-zoho-crm` allows submitted reviews
 - **Embed widgets** — "Calculate CRM TCO" interactive form
 - **AI-assisted refresh** — quarterly LLM-driven content update for competitor sections (still owner-reviewed before publish)
 - **Hreflang** for multi-language pSEO (id, en, ms, vi, th, tl variants of country pages)
@@ -411,5 +409,5 @@ Automated check: `php artisan pseo:audit` walks all routes, validates word count
 
 - All competitor claims must be **verifiable and fair**
 - Comparison tables source dates clearly noted (e.g., "as of May 2026")
-- No trademark misuse — "Perfex CRM" used factually as comparison, not falsely affiliated
+- No trademark misuse — competitor names used factually as comparison, not falsely affiliated
 - If a competitor objects, route to negotiation; never resort to misleading content

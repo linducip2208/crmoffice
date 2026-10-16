@@ -431,25 +431,24 @@ class DemoContentSeeder extends Seeder
                     'updated_at' => now(),
                 ];
             }
+            $prevTaskIds = Task::where('project_id', $pid)->pluck('id')->all();
             Task::insert($tasks);
 
-            $taskIds = Task::where('project_id', $pid)->pluck('id')->toArray();
+            // Assign hanya task yang baru dibuat di run ini — mencegah duplicate entry
+            // di task_assignees saat seeder dijalankan ulang tanpa migrate:fresh.
+            $taskIds = Task::where('project_id', $pid)->pluck('id')->diff($prevTaskIds);
             foreach ($taskIds as $tid) {
                 $assignees = [];
-                $assigneeCount = rand(1, 2);
-                $usedUids = [];
-                for ($k = 0; $k < $assigneeCount; $k++) {
-                    do {
-                        $uid = $this->faker->randomElement($this->userIds);
-                    } while (in_array($uid, $usedUids));
-                    $usedUids[] = $uid;
+                foreach ($this->faker->randomElements($this->userIds, min(rand(1, 2), count($this->userIds))) as $uid) {
                     $assignees[] = [
                         'task_id' => $tid,
                         'user_id' => $uid,
                         'assigned_at' => now()->subDays(rand(0, 30)),
                     ];
                 }
-                DB::table('task_assignees')->insert($assignees);
+                if ($assignees !== []) {
+                    DB::table('task_assignees')->insertOrIgnore($assignees);
+                }
             }
         }
         $this->taskIds = Task::pluck('id')->toArray();

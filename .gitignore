@@ -25,6 +25,7 @@
 /bootstrap/cache
 /vendor
 /storage/app/.license.lock
+/storage/shots
 _ide_helper.php
 Homestead.json
 Homestead.yaml

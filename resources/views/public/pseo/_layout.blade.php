@@ -85,9 +85,9 @@ footer a{color:#4f46e5;text-decoration:none}
     <h2>Explore More</h2>
     <a href="/best-crm-for-agencies">Best CRM for Agencies</a>
     <a href="/best-crm-for-freelancers">Best CRM for Freelancers</a>
-    <a href="/alternatives-to-perfex">Alternatives to Perfex</a>
     <a href="/alternatives-to-hubspot">Alternatives to HubSpot</a>
-    <a href="/compare/crmoffice-vs-perfex">crmoffice vs Perfex</a>
+    <a href="/alternatives-to-zoho-crm">Alternatives to Zoho CRM</a>
+    <a href="/compare/crmoffice-vs-hubspot">crmoffice vs HubSpot</a>
     <a href="/crm-for-indonesia">CRM for Indonesia</a>
   </div>
 </section>

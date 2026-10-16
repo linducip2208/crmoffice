@@ -40,6 +40,11 @@ class ContactResource extends Resource
         return ContactsTable::configure($table);
     }
 
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->with('client');
+    }
+
     public static function getRelations(): array
     {
         return [

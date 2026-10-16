@@ -12,36 +12,36 @@ class ContactPolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_contact');
+        return $user->can('view_any.contact');
     }
 
     public function view(User $user, Contact $contact): bool
     {
-        return $user->can('view_contact');
+        return $user->can('view.contact');
     }
 
     public function create(User $user): bool
     {
-        return $user->can('create_contact');
+        return $user->can('create.contact');
     }
 
     public function update(User $user, Contact $contact): bool
     {
-        return $user->can('update_contact');
+        return $user->can('update.contact');
     }
 
     public function delete(User $user, Contact $contact): bool
     {
-        return $user->can('delete_contact');
+        return $user->can('delete.contact');
     }
 
     public function restore(User $user, Contact $contact): bool
     {
-        return $user->can('restore_contact');
+        return $user->can('delete.contact');
     }
 
     public function forceDelete(User $user, Contact $contact): bool
     {
-        return $user->can('force_delete_contact');
+        return $user->can('delete.contact');
     }
 }

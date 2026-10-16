@@ -204,6 +204,7 @@ class InvoicesRelationManager extends RelationManager
             ->modifyQueryUsing(fn (Builder $query) => $query
                 ->withoutGlobalScopes([
                     SoftDeletingScope::class,
-                ]));
+                ])
+                ->with(['project', 'estimate', 'currency', 'pdfFile']));
     }
 }

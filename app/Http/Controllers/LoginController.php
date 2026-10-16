@@ -10,7 +10,7 @@ use Illuminate\View\View;
 
 class LoginController extends Controller
 {
-    public function show(): View
+    public function show(): View|RedirectResponse
     {
         if (Auth::check()) {
             return redirect()->intended('/admin');

@@ -55,7 +55,7 @@
 
   <section class="faq">
     <h2>FAQ tentang switching dari {{ $data['display'] }}</h2>
-    <details><summary>Bagaimana migrasi data dari {{ $data['display'] }}?</summary><p>CSV export dari {{ $data['display'] }} → CSV import di crmoffice (Clients, Leads). Untuk Perfex tersedia migration script.</p></details>
+    <details><summary>Bagaimana migrasi data dari {{ $data['display'] }}?</summary><p>CSV export dari {{ $data['display'] }} → CSV import di crmoffice (Clients, Leads, Invoices). Siap pakai tanpa scripting.</p></details>
     <details><summary>Apakah crmoffice cheaper dari {{ $data['display'] }}?</summary><p>Self-host: TCO jauh lebih rendah (cuma hosting cost). Tidak ada per-user fee.</p></details>
     <details><summary>Apa downside crmoffice?</summary><p>Produk lebih baru, marketplace plugin masih terbatas. Tapi codebase modern dan extensible.</p></details>
     <details><summary>Berapa lama proses migrasi?</summary><p>Untuk SMB 100-500 clients: 1-2 hari termasuk testing.</p></details>

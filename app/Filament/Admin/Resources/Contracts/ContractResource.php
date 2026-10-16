@@ -40,6 +40,11 @@ class ContractResource extends Resource
         return ContractsTable::configure($table);
     }
 
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->with(['client', 'currency']);
+    }
+
     public static function getRelations(): array
     {
         return [

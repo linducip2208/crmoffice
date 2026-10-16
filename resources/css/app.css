@@ -6,6 +6,88 @@
 @source '../**/*.js';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+    --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+    /* Palet brand = emerald/teal. Mapping ini membuat kelas lama (brand-*) tetap
+       valid namun kini mengarah ke identitas baru yang konsisten dengan admin. */
+    --color-brand-50: #ecfdf5;
+    --color-brand-100: #d1fae5;
+    --color-brand-200: #a7f3d0;
+    --color-brand-300: #6ee7b7;
+    --color-brand-400: #34d399;
+    --color-brand-500: #10b981;
+    --color-brand-600: #059669;
+    --color-brand-700: #047857;
+    --color-brand-800: #065f46;
+    --color-brand-900: #064e3b;
+}
+
+@layer base {
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+        font-feature-settings: 'cv11', 'ss01', 'ss03';
+        -webkit-font-smoothing: antialiased;
+    }
+
+    ::selection {
+        background: #a7f3d0;
+        color: #064e3b;
+    }
+}
+
+/* ============================================================ */
+/* UTILITAS LANDING (clean light SaaS)                          */
+/* ============================================================ */
+
+/* Titik halus untuk latar hero — emerald tipis, bukan ungu. */
+.bg-dot {
+    background-image: radial-gradient(rgb(5 150 105 / 0.13) 1px, transparent 1px);
+    background-size: 22px 22px;
+}
+
+.nav-blur {
+    backdrop-filter: blur(14px) saturate(180%);
+    -webkit-backdrop-filter: blur(14px) saturate(180%);
+}
+
+.text-balance {
+    text-wrap: balance;
+}
+
+/* Bingkai browser untuk screenshot produk — bayangan lembut khas SaaS premium. */
+.browser-chrome {
+    box-shadow:
+        0 30px 60px -22px rgba(28, 25, 23, 0.22),
+        0 12px 28px -12px rgba(28, 25, 23, 0.12),
+        0 1px 0 rgba(28, 25, 23, 0.04);
+}
+
+details summary::-webkit-details-marker {
+    display: none;
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+.shimmer {
+    background: linear-gradient(90deg, #e7e5e4 0%, #f5f5f4 40%, #e7e5e4 80%);
+    background-size: 200% 100%;
+    animation: shimmer 2s linear infinite;
+}
+
+/* Kilau lembut di belakang hero screenshot. */
+.hero-glow {
+    background: radial-gradient(60% 60% at 50% 40%, rgba(16, 185, 129, 0.14) 0%, rgba(16, 185, 129, 0) 100%);
+}
+
+[x-cloak] {
+    display: none !important;
 }

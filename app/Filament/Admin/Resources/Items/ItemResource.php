@@ -38,6 +38,11 @@ class ItemResource extends Resource
         return ItemsTable::configure($table);
     }
 
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        return parent::getEloquentQuery()->with(['defaultTaxRate', 'currency']);
+    }
+
     public static function getRelations(): array
     {
         return [

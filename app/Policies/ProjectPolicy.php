@@ -12,36 +12,36 @@ class ProjectPolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_project');
+        return $user->can('view_any.project');
     }
 
     public function view(User $user, Project $project): bool
     {
-        return $user->can('view_project');
+        return $user->can('view.project');
     }
 
     public function create(User $user): bool
     {
-        return $user->can('create_project');
+        return $user->can('create.project');
     }
 
     public function update(User $user, Project $project): bool
     {
-        return $user->can('update_project');
+        return $user->can('update.project');
     }
 
     public function delete(User $user, Project $project): bool
     {
-        return $user->can('delete_project');
+        return $user->can('delete.project');
     }
 
     public function restore(User $user, Project $project): bool
     {
-        return $user->can('restore_project');
+        return $user->can('delete.project');
     }
 
     public function forceDelete(User $user, Project $project): bool
     {
-        return $user->can('force_delete_project');
+        return $user->can('delete.project');
     }
 }

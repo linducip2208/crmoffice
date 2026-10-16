@@ -56,7 +56,7 @@ class TicketKpiWidget extends BaseWidget
                 ->description('First response overdue')
                 ->color($breachedSla > 0 ? 'danger' : 'success'),
 
-            Stat::make('Avg Response Time', $hours . 'h')
+            Stat::make('Avg Response Time', number_format($hours, 1, ',', '.') . ' jam')
                 ->description('Avg first response time')
                 ->color($hours > 4 ? 'warning' : 'success'),
         ];

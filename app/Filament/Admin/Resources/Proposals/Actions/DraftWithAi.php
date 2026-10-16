@@ -7,8 +7,12 @@ use App\Models\Client;
 use App\Models\Lead;
 use Filament\Actions\Action;
 use Filament\Forms;
+use Filament\Forms\Components\Hidden;
 use Filament\Notifications\Notification;
+use Filament\Schemas\Components\Section;
+use Filament\Schemas\Components\Text;
 use Filament\Schemas\Schema;
+use Illuminate\Support\HtmlString;
 
 class DraftWithAi extends Action
 {
@@ -57,9 +61,10 @@ class DraftWithAi extends Action
                 ]);
             })
             ->form([
-                Forms\Components\Placeholder::make('context_display')
-                    ->label('Client / Lead Context')
-                    ->content(fn ($get) => nl2br(e($get('context_display') ?: '—'))),
+                Hidden::make('context_display'),
+                Section::make('Client / Lead Context')->schema([
+                    Text::make(fn ($get) => new HtmlString(nl2br(e($get('context_display') ?: '—')))),
+                ]),
                 Forms\Components\Textarea::make('instructions')
                     ->label('Extra Instructions')
                     ->placeholder('Describe the service, deliverables, scope, or any specific requirements...')

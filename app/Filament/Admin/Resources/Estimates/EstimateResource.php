@@ -40,6 +40,11 @@ class EstimateResource extends Resource
         return EstimatesTable::configure($table);
     }
 
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->with(['client', 'currency', 'convertedInvoice']);
+    }
+
     public static function getRelations(): array
     {
         return [

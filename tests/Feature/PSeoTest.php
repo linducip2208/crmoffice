@@ -24,15 +24,15 @@ test('pseo: download-source-code-crm returns 200', function () {
         ->assertOk();
 });
 
-test('pseo: alternatives-to-perfex returns 200', function () {
+test('pseo: alternatives-to-hubspot returns 200', function () {
     $this->withoutMiddleware(\App\Http\Middleware\RequirePair::class)
-        ->get('/alternatives-to-perfex')
+        ->get('/alternatives-to-hubspot')
         ->assertOk();
 });
 
-test('pseo: compare-crmoffice-vs-perfex returns 200', function () {
+test('pseo: compare-crmoffice-vs-hubspot returns 200', function () {
     $this->withoutMiddleware(\App\Http\Middleware\RequirePair::class)
-        ->get('/compare/crmoffice-vs-perfex')
+        ->get('/compare/crmoffice-vs-hubspot')
         ->assertOk();
 });
 

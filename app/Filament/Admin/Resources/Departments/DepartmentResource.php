@@ -38,6 +38,11 @@ class DepartmentResource extends Resource
         return DepartmentsTable::configure($table);
     }
 
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        return parent::getEloquentQuery()->with('defaultAssignee');
+    }
+
     public static function getRelations(): array
     {
         return [

@@ -16,24 +16,24 @@ class CannedResponseForm
         return $schema
             ->components([
                 TextInput::make('title')
-                    ->label(__('crm.fields.title'))
+                    ->label(__('crm.field.title'))
                     ->required()
                     ->maxLength(200),
                 Textarea::make('content')
-                    ->label(__('crm.fields.content'))
+                    ->label(__('crm.field.content'))
                     ->required()
                     ->rows(8)
                     ->columnSpanFull(),
                 TextInput::make('category')
-                    ->label(__('crm.fields.category'))
+                    ->label(__('crm.field.category'))
                     ->maxLength(100),
                 Select::make('department_id')
-                    ->label(__('crm.fields.department_id'))
+                    ->label(__('crm.field.department_id'))
                     ->options(fn () => Department::where('is_active', true)->pluck('name', 'id'))
                     ->searchable()
                     ->placeholder('All departments'),
                 Toggle::make('is_shared')
-                    ->label(__('crm.fields.is_shared'))
+                    ->label(__('crm.field.is_shared'))
                     ->helperText('Visible to all support staff'),
             ]);
     }

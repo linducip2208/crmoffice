@@ -38,6 +38,11 @@ class MilestoneResource extends Resource
         return MilestonesTable::configure($table);
     }
 
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        return parent::getEloquentQuery()->with('project');
+    }
+
     public static function getRelations(): array
     {
         return [

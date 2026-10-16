@@ -53,6 +53,7 @@ class PaymentsRelationManager extends RelationManager
     {
         return $table
             ->recordTitleAttribute('transaction_id')
+            ->modifyQueryUsing(fn (\Illuminate\Database\Eloquent\Builder $query) => $query->with(['currency', 'provider']))
             ->columns([
                 TextColumn::make('amount')
                     ->numeric()

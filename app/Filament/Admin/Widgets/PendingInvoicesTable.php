@@ -28,12 +28,13 @@ class PendingInvoicesTable extends TableWidget
                     ->whereIn('status', ['sent', 'partial', 'overdue'])
                     ->with('client')
                     ->latest('due_date')
+                    ->limit(8)
             )
             ->columns([
                 TextColumn::make('number')->searchable(),
                 TextColumn::make('client.company_name')->label('Client'),
-                TextColumn::make('total')->money('IDR'),
-                TextColumn::make('balance_due')->money('IDR'),
+                TextColumn::make('total')->money(fn ($record) => $record->currency?->code ?? 'IDR'),
+                TextColumn::make('balance_due')->money(fn ($record) => $record->currency?->code ?? 'IDR'),
                 TextColumn::make('status')->badge(),
                 TextColumn::make('due_date')->date('d M Y')->sinceTooltip(),
             ])

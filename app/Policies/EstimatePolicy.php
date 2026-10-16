@@ -12,36 +12,36 @@ class EstimatePolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_estimate');
+        return $user->can('view_any.estimate');
     }
 
     public function view(User $user, Estimate $estimate): bool
     {
-        return $user->can('view_estimate');
+        return $user->can('view.estimate');
     }
 
     public function create(User $user): bool
     {
-        return $user->can('create_estimate');
+        return $user->can('create.estimate');
     }
 
     public function update(User $user, Estimate $estimate): bool
     {
-        return $user->can('update_estimate');
+        return $user->can('update.estimate');
     }
 
     public function delete(User $user, Estimate $estimate): bool
     {
-        return $user->can('delete_estimate');
+        return $user->can('delete.estimate');
     }
 
     public function restore(User $user, Estimate $estimate): bool
     {
-        return $user->can('restore_estimate');
+        return $user->can('delete.estimate');
     }
 
     public function forceDelete(User $user, Estimate $estimate): bool
     {
-        return $user->can('force_delete_estimate');
+        return $user->can('delete.estimate');
     }
 }

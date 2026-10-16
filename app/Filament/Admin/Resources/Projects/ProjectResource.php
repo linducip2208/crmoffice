@@ -50,6 +50,11 @@ class ProjectResource extends Resource
         return ProjectsTable::configure($table);
     }
 
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->with(['client', 'projectManager']);
+    }
+
     public static function getRelations(): array
     {
                 return [

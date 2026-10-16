@@ -38,6 +38,11 @@ class PaymentResource extends Resource
         return PaymentsTable::configure($table);
     }
 
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        return parent::getEloquentQuery()->with(['invoice', 'currency', 'provider']);
+    }
+
     public static function getRelations(): array
     {
         return [

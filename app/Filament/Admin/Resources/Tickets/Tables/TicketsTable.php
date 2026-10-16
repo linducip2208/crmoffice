@@ -3,6 +3,7 @@
 namespace App\Filament\Admin\Resources\Tickets\Tables;
 
 use App\Models\Department;
+use App\Models\Ticket;
 use App\Models\TicketPriority;
 use App\Models\TicketStatus;
 use App\Models\User;
@@ -69,13 +70,11 @@ class TicketsTable
                                 ->required(),
                         ])
                         ->action(function ($records, array $data) {
-                            $count = 0;
+                            $ids = $records->pluck('id');
                             $statusName = TicketStatus::find($data['status_id'])?->name ?? 'Unknown';
-                            foreach ($records as $ticket) {
-                                $ticket->update(['status_id' => $data['status_id']]);
-                                $count++;
-                            }
-                            Notification::make()->title("Changed $count tickets to \"$statusName\"")->success()->send();
+                            // Bulk update (1 query), bukan N update per baris.
+                            Ticket::withTrashed()->whereIn('id', $ids)->update(['status_id' => $data['status_id']]);
+                            Notification::make()->title("Changed {$ids->count()} tickets to \"$statusName\"")->success()->send();
                         }),
                     DeleteBulkAction::make(),
                     ForceDeleteBulkAction::make(),

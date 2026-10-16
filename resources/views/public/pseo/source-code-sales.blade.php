@@ -81,19 +81,19 @@ $waNumber = '0812-9605-2010';
     <h2>⚖️ crmoffice vs Kompetitor</h2>
     <table class="compare-table">
       <thead>
-        <tr><th>Kriteria</th><th style="background:#eef2ff">crmoffice</th><th>Perfex CRM</th><th>HubSpot</th><th>Zoho CRM</th></tr>
+        <tr><th>Kriteria</th><th style="background:#eef2ff">crmoffice</th><th>HubSpot</th><th>Zoho CRM</th></tr>
       </thead>
       <tbody>
-        <tr><td>Self-Hosted</td><td class="win">✓</td><td>✓</td><td>✗</td><td>✗</td></tr>
-        <tr><td>Source Code</td><td class="win">Full unencrypted</td><td>IonCube obfuscated</td><td>Closed</td><td>Closed</td></tr>
-        <tr><td>Stack</td><td class="win">Laravel 13 + Filament 5</td><td>CodeIgniter 3 + jQuery</td><td>Proprietary</td><td>Proprietary</td></tr>
-        <tr><td>One-Time Price</td><td class="win">✓ Rp 3.5jt</td><td>~Rp 900rb</td><td>$15-150/bln</td><td>$14-52/bln</td></tr>
-        <tr><td>Unlimited Users</td><td class="win">✓</td><td>✓</td><td>✗ (per seat)</td><td>✗ (per seat)</td></tr>
-        <tr><td>Resellable</td><td class="win">✓ (Whitelabel)</td><td>✗</td><td>✗</td><td>✗</td></tr>
-        <tr><td>BYO Gateway</td><td class="win">✓ Format adapters</td><td>Hardcoded</td><td>Limited</td><td>Limited</td></tr>
-        <tr><td>Modern UI</td><td class="win">✓ Premium Filament</td><td>Outdated</td><td>✓</td><td>Cluttered</td></tr>
-        <tr><td>API</td><td class="win">✓ Sanctum REST</td><td>Limited</td><td>✓</td><td>✓</td></tr>
-        <tr><td>pSEO Bawaan</td><td class="win">✓ 1M+ pages</td><td>✗</td><td>✗</td><td>✗</td></tr>
+        <tr><td>Self-Hosted</td><td class="win">✓</td><td>✗</td><td>✗</td></tr>
+        <tr><td>Source Code</td><td class="win">Full unencrypted</td><td>Closed</td><td>Closed</td></tr>
+        <tr><td>Stack</td><td class="win">Laravel 13 + Filament 5</td><td>Proprietary</td><td>Proprietary</td></tr>
+        <tr><td>One-Time Price</td><td class="win">✓ Rp 3.5jt</td><td>$15-150/bln</td><td>$14-52/bln</td></tr>
+        <tr><td>Unlimited Users</td><td class="win">✓</td><td>✗ (per seat)</td><td>✗ (per seat)</td></tr>
+        <tr><td>Resellable</td><td class="win">✓ (Whitelabel)</td><td>✗</td><td>✗</td></tr>
+        <tr><td>BYO Gateway</td><td class="win">✓ Format adapters</td><td>Limited</td><td>Limited</td></tr>
+        <tr><td>Modern UI</td><td class="win">✓ Premium Filament</td><td>✓</td><td>Cluttered</td></tr>
+        <tr><td>API</td><td class="win">✓ Sanctum REST</td><td>✓</td><td>✓</td></tr>
+        <tr><td>pSEO Bawaan</td><td class="win">✓ 1M+ pages</td><td>✗</td><td>✗</td></tr>
       </tbody>
     </table>
   </section>

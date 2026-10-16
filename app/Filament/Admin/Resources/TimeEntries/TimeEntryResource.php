@@ -38,6 +38,11 @@ class TimeEntryResource extends Resource
         return TimeEntriesTable::configure($table);
     }
 
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        return parent::getEloquentQuery()->with(['task', 'project', 'user', 'invoiceItem']);
+    }
+
     public static function getRelations(): array
     {
         return [

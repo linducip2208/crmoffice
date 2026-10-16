@@ -24,29 +24,32 @@ class NumberSequence
     {
         return DB::transaction(function () use ($key) {
             $year = self::yearForKey($key);
+
+            // Pastikan row sequence ada. insertOrIgnore atomik terhadap unique
+            // index (key, year): dua request bersamaan tidak bisa membuat dua
+            // row — unique index yang menahan, bukan SELECT ... lockForUpdate
+            // (lock tidak bekerja saat row belum ada).
+            DB::table('number_sequences')->insertOrIgnore([
+                'key' => $key,
+                'year' => $year,
+                'current' => 0,
+                'updated_at' => now(),
+            ]);
+
             $row = DB::table('number_sequences')
                 ->where('key', $key)
                 ->where('year', $year)
                 ->lockForUpdate()
                 ->first();
 
-            if ($row) {
-                $next = $row->current + 1;
-                DB::table('number_sequences')
-                    ->where('id', $row->id)
-                    ->update(['current' => $next, 'updated_at' => now()]);
-            } else {
-                $next = 1;
-                DB::table('number_sequences')->insert([
-                    'key' => $key,
-                    'year' => $year,
-                    'current' => $next,
-                    'updated_at' => now(),
-                ]);
-            }
+            $next = ((int) $row->current) + 1;
+
+            DB::table('number_sequences')
+                ->where('id', $row->id)
+                ->update(['current' => $next, 'updated_at' => now()]);
 
             return self::format($key, $next);
-        });
+        }, 3);
     }
 
     private static function currentValue(string $key): int
@@ -65,7 +68,7 @@ class NumberSequence
         $year = self::yearForKey($key);
         $padded = str_pad((string) $value, 4, '0', STR_PAD_LEFT);
 
-        return $year
+        return $year > 0
             ? "{$prefix}-{$year}-{$padded}"
             : "{$prefix}-{$padded}";
     }
@@ -83,14 +86,20 @@ class NumberSequence
         return strtoupper(substr($key, 0, 3));
     }
 
-    private static function yearForKey(string $key): ?int
+    /**
+     * Tahun untuk sequence. 0 = sequence kontinu tanpa reset (mis. tiket).
+     * Jangan pernah mengembalikan null: unique index (key, year) tidak
+     * menganggap dua NULL sebagai duplikat di MySQL — celah nomor ganda.
+     */
+    private static function yearForKey(string $key): int
     {
-        $resetYearly = config('crmoffice.numbering.reset_yearly', true);
-        // Tickets are continuous (no year prefix)
+        // Tiket kontinu (tanpa prefix tahun).
         if ($key === 'ticket') {
-            return null;
+            return 0;
         }
 
-        return $resetYearly ? (int) now()->year : null;
+        $resetYearly = config('crmoffice.numbering.reset_yearly', true);
+
+        return $resetYearly ? (int) now()->year : 0;
     }
 }

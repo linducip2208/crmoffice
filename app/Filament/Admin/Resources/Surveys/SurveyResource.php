@@ -4,6 +4,7 @@ namespace App\Filament\Admin\Resources\Surveys;
 
 use App\Models\Survey;
 use BackedEnum;
+use Filament\Actions\Action;
 use Filament\Forms;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
@@ -51,7 +52,7 @@ class SurveyResource extends Resource
             TextColumn::make('created_at')->dateTime()->sortable(),
         ])
             ->actions([
-                Tables\Actions\Action::make('viewResults')
+                Action::make('viewResults')
                     ->label('Results')
                     ->icon(Heroicon::OutlinedChartBar)
                     ->color('gray')

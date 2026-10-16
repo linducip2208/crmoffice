@@ -29,25 +29,24 @@ const OUT_DIR  = path.resolve(__dirname, '..', 'public', 'marketing', 'screens')
  */
 const PAGES = [
     // Feature sections (alternating layout)
-    { url: '/admin',                                file: 'dashboard.png' },
-    { url: '/admin/leads',                          file: 'leads-kanban.png' },
-    { url: '/admin/invoices',                       file: 'invoices.png' },
-    { url: '/admin/projects',                       file: 'projects.png' },
-    { url: '/admin/tickets',                        file: 'tickets.png' },
-    { url: '/admin/providers',                      file: 'providers.png' },
-    { url: '/admin/estimates',                      file: 'estimates.png' },
-    { url: '/admin/reports/revenue',                file: 'reports.png' },
+    { url: '/admin',                    file: 'dashboard.png', lazyWidgets: true },
+    { url: '/admin/leads-kanban',       file: 'leads-kanban.png' },
+    { url: '/admin/invoices',           file: 'invoices.png' },
+    { url: '/admin/projects',           file: 'projects.png' },
+    { url: '/admin/tickets',            file: 'tickets.png' },
+    { url: '/admin/providers',          file: 'providers.png' },
+    { url: '/admin/estimates',          file: 'estimates.png' },
+    { url: '/admin/sales-report',       file: 'reports.png' },
 
-    // Gallery grid (6-9 lain)
-    { url: '/admin/clients',                        file: 'gallery-contacts.png' },
-    { url: '/admin/tasks',                          file: 'gallery-tasks-gantt.png' },
-    { url: '/admin/time-entries',                   file: 'gallery-time.png' },
-    { url: '/admin/kb-articles',                    file: 'gallery-kb.png' },
-    { url: '/portal',                               file: 'gallery-portal.png' },
-    { url: '/admin/providers',                      file: 'gallery-providers.png' },
-    { url: '/admin/audit-log',                      file: 'gallery-audit.png' },
-    { url: '/best-crm-for-agency',                  file: 'gallery-pseo.png' },
-    { url: '/admin/account',                        file: 'gallery-2fa.png' },
+    // Gallery grid
+    { url: '/admin/contacts',           file: 'gallery-contacts.png' },
+    { url: '/admin/task-gantt',         file: 'gallery-tasks-gantt.png' },
+    { url: '/admin/time-report',        file: 'gallery-time.png' },
+    { url: '/admin/kb-articles',        file: 'gallery-kb.png' },
+    { url: '/admin/calendar',           file: 'gallery-calendar.png' },
+    { url: '/admin/audit-log',          file: 'gallery-audit.png' },
+    { url: '/admin/aging-report',       file: 'gallery-aging.png' },
+    { url: '/admin/settings',           file: 'gallery-settings.png' },
 ];
 
 (async () => {
@@ -56,8 +55,8 @@ const PAGES = [
     console.log(`→ Launching Chromium…`);
     const browser = await chromium.launch({ headless: true });
     const context = await browser.newContext({
-        viewport: { width: 1440, height: 900 },
-        deviceScaleFactor: 2,
+        viewport: { width: 1680, height: 1050 },
+        deviceScaleFactor: 1,
         locale: 'id-ID',
         timezoneId: 'Asia/Jakarta',
     });
@@ -69,7 +68,8 @@ const PAGES = [
     await page.fill('input[type=email], input[name=email]', EMAIL);
     await page.fill('input[type=password], input[name=password]', PASSWORD);
     await Promise.all([
-        page.waitForURL(/\/admin/, { timeout: 15000 }).catch(() => null),
+        // Hindari race: /admin/login juga match regex /\/admin/ lama — pakai predicate pathname.
+        page.waitForURL((url) => url.pathname.startsWith('/admin') && url.pathname !== '/admin/login', { timeout: 30000 }),
         page.click('button[type=submit]'),
     ]);
 
@@ -89,12 +89,27 @@ const PAGES = [
         const target = `${BASE_URL}${p.url}`;
         const out = path.join(OUT_DIR, p.file);
         try {
-            await page.goto(target, { waitUntil: 'networkidle', timeout: 20000 });
+            await page.goto(target, { waitUntil: 'domcontentloaded', timeout: 30000 });
+            await page.waitForSelector('.fi-page-content', { timeout: 15000 }).catch(() => null);
             if (p.waitFor) {
                 await page.waitForSelector(p.waitFor, { timeout: 8000 }).catch(() => null);
             }
+            if (p.lazyWidgets) {
+                // Dashboard: widget Livewire lazy — tunggu semua render selesai.
+                const deadline = Date.now() + 60000;
+                while (Date.now() < deadline) {
+                    const ready = await page.evaluate(() => {
+                        const els = Array.from(document.querySelectorAll('.fi-page-content [wire\\:id]'));
+                        return els.length > 0 && els.every((el) => el.innerText.trim().length > 0);
+                    }).catch(() => false);
+                    if (ready) break;
+                    await page.waitForTimeout(500);
+                }
+            }
             // Pause sebentar agar chart/animation settle
-            await page.waitForTimeout(800);
+            await page.waitForTimeout(1200);
+            await page.evaluate(() => window.scrollTo(0, 0));
+            await page.waitForTimeout(300);
 
             await page.screenshot({
                 path: out,

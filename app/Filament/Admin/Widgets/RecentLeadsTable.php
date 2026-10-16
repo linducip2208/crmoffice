@@ -20,7 +20,7 @@ class RecentLeadsTable extends BaseWidget
     public function table(Table $table): Table
     {
         return $table
-            ->query(Lead::query()->latest()->limit(8))
+            ->query(Lead::query()->with('status')->latest()->limit(8))
             ->columns([
                 TextColumn::make('name')->searchable(),
                 TextColumn::make('company'),

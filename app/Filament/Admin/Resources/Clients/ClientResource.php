@@ -50,6 +50,11 @@ class ClientResource extends Resource
         return ClientsTable::configure($table);
     }
 
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->with(['accountManager', 'defaultCurrency']);
+    }
+
     public static function getRelations(): array
     {
                 return [

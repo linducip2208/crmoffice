@@ -20,7 +20,7 @@ const PASSWORD = process.env.DEMO_PASSWORD || 'password';
 const OUT_DIR  = path.resolve(__dirname, '..', 'public', 'marketing', 'screens');
 
 const PAGES = [
-    { url: '/admin',          file: 'mobile-dashboard.png' },
+    { url: '/admin',          file: 'mobile-dashboard.png', lazyWidgets: true },
     { url: '/admin/leads',    file: 'mobile-leads.png' },
     { url: '/admin/invoices', file: 'mobile-invoices.png' },
     { url: '/admin/tickets',  file: 'mobile-tickets.png' },
@@ -45,7 +45,8 @@ const PAGES = [
     await page.fill('input[type=email], input[name=email]', EMAIL);
     await page.fill('input[type=password], input[name=password]', PASSWORD);
     await Promise.all([
-        page.waitForURL(/\/admin/, { timeout: 15000 }).catch(() => null),
+        // Hindari race: /admin/login juga match regex /\/admin/ lama — pakai predicate pathname.
+        page.waitForURL((url) => url.pathname.startsWith('/admin') && url.pathname !== '/admin/login', { timeout: 30000 }),
         page.click('button[type=submit]'),
     ]);
 
@@ -58,8 +59,21 @@ const PAGES = [
     for (const p of PAGES) {
         const out = path.join(OUT_DIR, p.file);
         try {
-            await page.goto(`${BASE_URL}${p.url}`, { waitUntil: 'networkidle', timeout: 20000 });
-            await page.waitForTimeout(800);
+            await page.goto(`${BASE_URL}${p.url}`, { waitUntil: 'domcontentloaded', timeout: 30000 });
+            await page.waitForSelector('.fi-page-content', { timeout: 15000 }).catch(() => null);
+            if (p.lazyWidgets) {
+                // Dashboard: widget Livewire lazy — tunggu semua render selesai.
+                const deadline = Date.now() + 60000;
+                while (Date.now() < deadline) {
+                    const ready = await page.evaluate(() => {
+                        const els = Array.from(document.querySelectorAll('.fi-page-content [wire\\:id]'));
+                        return els.length > 0 && els.every((el) => el.innerText.trim().length > 0);
+                    }).catch(() => false);
+                    if (ready) break;
+                    await page.waitForTimeout(500);
+                }
+            }
+            await page.waitForTimeout(1000);
             await page.screenshot({ path: out, fullPage: true });
             console.log(`  ✓ ${p.file.padEnd(28)} ← ${p.url}`);
         } catch (err) {

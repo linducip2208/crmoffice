@@ -12,36 +12,36 @@ class ContractPolicy
 
     public function viewAny(User $user): bool
     {
-        return $user->can('view_any_contract');
+        return $user->can('view_any.contract');
     }
 
     public function view(User $user, Contract $contract): bool
     {
-        return $user->can('view_contract');
+        return $user->can('view.contract');
     }
 
     public function create(User $user): bool
     {
-        return $user->can('create_contract');
+        return $user->can('create.contract');
     }
 
     public function update(User $user, Contract $contract): bool
     {
-        return $user->can('update_contract');
+        return $user->can('update.contract');
     }
 
     public function delete(User $user, Contract $contract): bool
     {
-        return $user->can('delete_contract');
+        return $user->can('delete.contract');
     }
 
     public function restore(User $user, Contract $contract): bool
     {
-        return $user->can('restore_contract');
+        return $user->can('delete.contract');
     }
 
     public function forceDelete(User $user, Contract $contract): bool
     {
-        return $user->can('force_delete_contract');
+        return $user->can('delete.contract');
     }
 }

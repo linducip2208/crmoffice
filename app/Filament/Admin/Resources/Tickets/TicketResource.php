@@ -50,6 +50,17 @@ class TicketResource extends Resource
         return TicketsTable::configure($table);
     }
 
+    public static function getEloquentQuery(): Builder
+    {
+        return parent::getEloquentQuery()->with([
+            'client',
+            'department',
+            'priority',
+            'status',
+            'assignee',
+        ]);
+    }
+
     public static function getRelations(): array
     {
                 return [

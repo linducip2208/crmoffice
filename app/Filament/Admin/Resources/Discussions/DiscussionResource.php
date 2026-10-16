@@ -38,6 +38,11 @@ class DiscussionResource extends Resource
         return DiscussionsTable::configure($table);
     }
 
+    public static function getEloquentQuery(): \Illuminate\Database\Eloquent\Builder
+    {
+        return parent::getEloquentQuery()->with(['project', 'user']);
+    }
+
     public static function getRelations(): array
     {
         return [

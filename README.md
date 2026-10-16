@@ -1,8 +1,8 @@
 # crmoffice
 
-> Self-hostable Business CRM — a modern Perfex CRM replacement built on Laravel 13 + Filament 5 + Tailwind 4 + Vue 3/Inertia.
+> Self-hostable Business CRM for agencies, freelancers, and SMBs — built on Laravel 13 + Filament 5 + Tailwind 4 + Vue 3/Inertia.
 
-**Status:** 🟢 Phase 0–8 complete · 🟢 AI features live · 🟢 77 tests passing  
+**Status:** 🟢 Phase 0–8 complete · 🟢 AI features live · 🟢 125 tests passing  
 **Last updated:** 2026-05-30
 
 ---
@@ -73,13 +73,13 @@ composer run dev    # spawns server + queue + log tail + vite
 
 | Metric | Value |
 |---|---|
-| Routes | 277 |
-| Filament Resources | 35 (10 nav groups) |
-| Models | 56 |
-| Migrations | 64 |
-| Dashboard Widgets | 7 (per-role visibility) |
-| Report Pages | 6 |
-| PEST Tests | 77 (240 assertions) |
+| Routes | 323 |
+| Filament Resources | 38 (10 nav groups) |
+| Models | 59 |
+| Migrations | 74 |
+| Dashboard Widgets | 8 (per-role visibility) |
+| Report Pages | 7 |
+| PEST Tests | 125 (415 assertions) |
 | pSEO Routes | 140+ |
 | AI Features | 5 (Proposal Draft, Auto-Tag, Summarize, KB Suggest, Reply Draft) |
 
@@ -148,13 +148,16 @@ All planning artifacts in [`/docs`](./docs):
 | 14 | [FLUTTER-MOBILE](./docs/14-FLUTTER-MOBILE.md) | Flutter app spec (Phase 9) |
 | 15 | [MULTI-TENANCY](./docs/15-MULTI-TENANCY.md) | Multi-tenancy spec (Phase 9) |
 | 16 | [AI-FEATURES](./docs/16-AI-FEATURES.md) | AI features spec & architecture |
+| 17 | [SPEC-PRIORITAS](./docs/17-SPEC-PRIORITAS.md) | Spec ide prioritas (depth & polish, tanpa fitur baru) |
+| 18 | [AUDIT-FITUR-SETENGAH-JADI](./docs/18-AUDIT-FITUR-SETENGAH-JADI.md) | Audit fitur setengah jadi (klaim vs implementasi) |
+| 19 | [AUDIT-PERFORMA](./docs/19-AUDIT-PERFORMA.md) | Audit performa & query (temuan + Top 10 fix) |
 
 ## SEO
 
 The marketing surface generates 140+ programmatic SEO pages out of the box:
 
 - `/best-crm-for-{industry}` — agencies, freelancers, real-estate, MSPs, …
-- `/alternatives-to-{competitor}` — perfex, hubspot, zoho, freshsales, …
+- `/alternatives-to-{competitor}` — hubspot, zoho, freshsales, …
 - `/compare/{a}-vs-{b}` — head-to-head comparisons
 - `/crm-for-{country}` — indonesia, singapore, malaysia, …
 - `/kb/{category}/{article}` — published knowledge base
@@ -171,11 +174,13 @@ The marketing surface generates 140+ programmatic SEO pages out of the box:
 ## Tests
 
 ```bash
-php artisan test                # 77 tests, 240 assertions
-composer test                   # alias
+php artisan test                # 125 tests, 415 assertions
+composer test                   # alias (auto config:clear)
 vendor/bin/phpstan analyse      # static analysis (level 5)
 vendor/bin/pint --test          # code style check
 ```
+
+> Jika test gagal aneh (mis. 419/CSRF di portal), jalankan `php artisan optimize:clear` dulu — config cache lokal (`bootstrap/cache/config.php`) bisa mem-pin `app.env=local` saat testing.
 
 ## Deployment
 

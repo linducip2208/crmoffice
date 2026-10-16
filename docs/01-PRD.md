@@ -10,7 +10,7 @@
 
 Agency dan SMB di Indonesia (dan global) saat ini terpaksa stitching banyak tools — Trello untuk task, Notion untuk note, QuickBooks/manual Excel untuk invoice, WhatsApp untuk client communication, Google Forms untuk lead capture, dan tidak ada single source of truth tentang client lifecycle.
 
-**Perfex CRM** sebenarnya solving masalah ini, tapi:
+**CRM PHP lawas** sebenarnya solving masalah ini, tapi:
 - Stack legacy (CodeIgniter 3 + jQuery) — sulit di-extend, slow, security debt
 - UX terlihat 2018-an
 - Integrasi hardcoded — kalau pakai gateway lokal (Midtrans, Xendit, Doku) harus modify code
