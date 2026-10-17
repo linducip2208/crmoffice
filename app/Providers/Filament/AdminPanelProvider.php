@@ -67,13 +67,13 @@ class AdminPanelProvider extends PanelProvider
                 NavigationGroup::make('Master Data')->collapsed(false),
                 NavigationGroup::make('CRM')->collapsed(false),
                 NavigationGroup::make('Penjualan')->collapsed(false),
-                NavigationGroup::make('Finance')->collapsed(true),
+                NavigationGroup::make('Finance')->collapsed(false),
                 NavigationGroup::make('Proyek')->collapsed(false),
-                NavigationGroup::make('Support')->collapsed(true),
-                NavigationGroup::make('Laporan')->collapsed(true),
-                NavigationGroup::make('Marketing')->collapsed(true),
-                NavigationGroup::make('Integrasi')->collapsed(true),
-                NavigationGroup::make('Sistem')->collapsed(true),
+                NavigationGroup::make('Support')->collapsed(false),
+                NavigationGroup::make('Laporan')->collapsed(false),
+                NavigationGroup::make('Marketing')->collapsed(false),
+                NavigationGroup::make('Integrasi')->collapsed(false),
+                NavigationGroup::make('Sistem')->collapsed(false),
             ])
             ->discoverResources(in: app_path('Filament/Admin/Resources'), for: 'App\\Filament\\Admin\\Resources')
             ->discoverPages(in: app_path('Filament/Admin/Pages'), for: 'App\\Filament\\Admin\\Pages')
