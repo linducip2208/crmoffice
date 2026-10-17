@@ -34,7 +34,7 @@
 @push('jsonld')
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
+  "@@context": "https://schema.org",
   "@type": "Article",
   "headline": @json($art->title),
   "datePublished": @json($art->published_at?->toIso8601String()),

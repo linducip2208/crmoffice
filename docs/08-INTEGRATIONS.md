@@ -1,7 +1,7 @@
 # 08 — Integrations (Dynamic Provider Architecture)
 
 **Project:** crmoffice
-**Governing principle:** [No Hardcoded Providers — Global Rule](../../CLAUDE.md)
+**Governing principle:** **No Hardcoded Providers — Global Rule**
 **Last updated:** 2026-05-30
 
 > **Implementation note (Phase 1–6):** Providers resource implemented with dynamic adapter pattern supporting Payment, Mail, SMS, Storage, and LLM provider types — all configurable via Admin UI with no hardcoded vendor names.
@@ -391,4 +391,4 @@ For users migrating from a legacy CRM installation:
 
 ## 14. Reference
 
-Full background and decision history: see [Global CLAUDE.md "No Hardcoded Providers"](../../CLAUDE.md) + sister project `foodscan` docs.
+Full background and decision history: see Global Rule **"No Hardcoded Providers"**.

@@ -85,7 +85,7 @@
                         <input type="checkbox" name="remember" value="1" class="rounded border-slate-300 text-blue-600 focus:ring-blue-500">
                         Ingatkan saya
                     </label>
-                    <a href="/admin/password/reset" class="text-sm text-blue-600 font-semibold hover:underline">Lupa password?</a>
+                    <span class="text-sm text-slate-400">Lupa password? Hubungi administrator</span>
                 </div>
                 <button type="submit" class="w-full py-3.5 bg-gradient-to-br from-blue-500 to-blue-700 text-white font-semibold rounded-xl shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/50 active:scale-[0.98] transition">
                     Masuk &rarr;

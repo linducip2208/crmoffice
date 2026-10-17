@@ -7,7 +7,7 @@ $appName = config('app.name', 'crmoffice');
 @push('head')
 <script type="application/ld+json">
 {
-    "@context": "https://schema.org",
+    "@@context": "https://schema.org",
     "@type": "Article",
     "headline": "{{ $post->title }}",
     "description": "{{ $seoDescription }}",

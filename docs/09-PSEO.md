@@ -1,7 +1,7 @@
 # 09 — Programmatic SEO Strategy
 
 **Project:** crmoffice
-**Governing principle:** [pSEO is a default, not optional — Global Rule](../../CLAUDE.md)
+**Governing principle:** **pSEO is a default, not optional — Global Rule**
 **Reference implementation:** `D:\project laravel\whitelabel\whitelabel\app\Http\Controllers\ProgrammaticSeoController.php`
 **Last updated:** 2026-05-30
 

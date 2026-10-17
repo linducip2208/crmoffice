@@ -91,10 +91,12 @@ Route::prefix('blog')->name('blog.')->group(function () {
 // ═══════════════════════════════════════════════════════════
 
 // --- Core PSEO (existing) ---
-Route::get('/best-crm-for-{industry}', [ProgrammaticSeoController::class, 'bestCrmFor'])
-    ->where('industry', '[a-z0-9-]+')->name('pseo.best');
+// NOTE: rute ber-suffix tahun HARUS di atas rute polos — kalau tidak,
+// /best-crm-for-X-2026 selalu match {industry}=X-2026 lalu abort 404.
 Route::get('/best-crm-for-{industry}-{year}', [ProgrammaticSeoController::class, 'bestCrmFor'])
     ->where(['industry' => '[a-z0-9-]+', 'year' => '20[0-9]{2}'])->name('pseo.best.year');
+Route::get('/best-crm-for-{industry}', [ProgrammaticSeoController::class, 'bestCrmFor'])
+    ->where('industry', '[a-z0-9-]+')->name('pseo.best');
 Route::get('/alternatives-to-{competitor}', [ProgrammaticSeoController::class, 'alternativesTo'])
     ->where('competitor', '[a-z0-9-]+')->name('pseo.alternatives');
 Route::get('/compare/{a}-vs-{b}', [ProgrammaticSeoController::class, 'compare'])
