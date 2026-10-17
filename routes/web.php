@@ -59,6 +59,6 @@ Route::middleware(['web', 'auth'])->group(function () {
 Route::get('/calendar.ics', [\App\Http\Controllers\IcsFeedController::class, 'feed'])->name('calendar.ics');
 
 require __DIR__.'/portal.php';
+require __DIR__.'/pair-routes.php';
 require __DIR__.'/public.php';
 require __DIR__.'/webhooks.php';
-require __DIR__.'/pair-routes.php';
