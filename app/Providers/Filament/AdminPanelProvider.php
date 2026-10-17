@@ -44,6 +44,10 @@ class AdminPanelProvider extends PanelProvider
                 fn (): \Illuminate\Contracts\View\View => view('filament.auth.login-demo-box'),
             )
             ->renderHook(
+                PanelsRenderHook::HEAD_START,
+                fn (): \Illuminate\Contracts\View\View => view('filament.admin.partials.sidebar-storage-fix'),
+            )
+            ->renderHook(
                 PanelsRenderHook::BODY_END,
                 fn (): \Illuminate\Contracts\View\View => view('filament.admin.partials.charts'),
             )
